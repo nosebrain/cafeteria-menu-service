@@ -18,7 +18,7 @@
 		<repository>
 			<id>nexus-nosebrain</id>
 			<name>nexus.nosebrain.de Nexus Artifactory</name>
-			<url>http://nexus.nosebrain.de:8081/nexus/content/repositories/snapshots/artifactory/repo</url>
+			<url>http://nexus.nosebrain.de:8081/nexus/content/repositories/snapshots</url>
 		</repository>
 	</repositories>
   
