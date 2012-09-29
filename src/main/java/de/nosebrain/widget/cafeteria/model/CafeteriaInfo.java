@@ -8,6 +8,7 @@ package de.nosebrain.widget.cafeteria.model;
 public class CafeteriaInfo {
 	private String name;
 	private String url;
+	private boolean disabled;
 
 	/**
 	 * @return the name
@@ -35,5 +36,19 @@ public class CafeteriaInfo {
 	 */
 	public void setUrl(final String url) {
 		this.url = url;
+	}
+
+	/**
+	 * @return the disabled
+	 */
+	public boolean isDisabled() {
+		return disabled;
+	}
+
+	/**
+	 * @param disabled the disabled to set
+	 */
+	public void setDisabled(boolean disabled) {
+		this.disabled = disabled;
 	}
 }

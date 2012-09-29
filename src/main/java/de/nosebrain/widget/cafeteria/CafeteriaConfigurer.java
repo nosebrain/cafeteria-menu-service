@@ -43,20 +43,26 @@ public class CafeteriaConfigurer implements BeanFactoryPostProcessor {
 					universityInfo = new UniversityInfo();
 					this.configMap.put(uniKey, universityInfo);
 				}
+				String value = this.properties.getProperty(key);
 				if (parts.length == 3) {
 					// TODO: color for widget
-					universityInfo.setName(this.properties.getProperty(key));
+					universityInfo.setName(value);
 				} else if (parts.length == 4) {
 					final int index = Integer.parseInt(parts[2]);
 
 					final List<CafeteriaInfo> infos = universityInfo.getCafeteriaInfos();
 					final CafeteriaInfo cafeteriaInfo = getCafeteriaInfo(infos, index);
-					if ("name".equals(parts[3])) {
-						cafeteriaInfo.setName(this.properties.getProperty(key));
+					String last = parts[3];
+					if ("name".equals(last)) {
+						cafeteriaInfo.setName(value);
+					}
+					
+					if ("disabled".equals(last)) {
+						cafeteriaInfo.setDisabled(Boolean.parseBoolean(value));
 					}
 
-					if ("url".equals(parts[3])) {
-						cafeteriaInfo.setUrl(this.properties.getProperty(key));
+					if ("url".equals(last)) {
+						cafeteriaInfo.setUrl(value);
 					}
 				}
 			}
