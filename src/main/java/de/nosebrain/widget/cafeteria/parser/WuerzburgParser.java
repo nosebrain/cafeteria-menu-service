@@ -14,18 +14,9 @@ import de.nosebrain.widget.cafeteria.model.Menu;
  * @author nosebrain
  */
 public class WuerzburgParser extends AbstractMenuParser {
-	private static final String EURO = "€";
-
-	private static String cleanPrice(final String attr) {
-		if (attr.contains(EURO)) {
-			return attr.replace(EURO, "").trim();
-		}
-
-		return attr;
-	}
 
 	@Override
-	protected Cafeteria extractInformations(final Document document, final int requestedWeek) {
+	protected Cafeteria extractInformations(final Document document, final int requestedWeek) throws Exception {
 		final Cafeteria cafeteria = new Cafeteria();
 		final Elements weeks = document.select(".mensamenu .week");
 
@@ -54,9 +45,9 @@ public class WuerzburgParser extends AbstractMenuParser {
 							menu.setDescription(menuElement.select(".title").text());
 
 							final Elements price = menuElement.select(".price");
-							menu.addPrice(cleanPrice(price.attr("data-default")));
-							menu.addPrice(cleanPrice(price.attr("data-bed")));
-							menu.addPrice(cleanPrice(price.attr("data-guest")));
+							menu.addPrice(AbstractMenuParser.cleanPrice(price.attr("data-default")));
+							menu.addPrice(AbstractMenuParser.cleanPrice(price.attr("data-bed")));
+							menu.addPrice(AbstractMenuParser.cleanPrice(price.attr("data-guest")));
 							// TODO: kind
 							// TODO: each
 							System.out.println(menuElement.select(".icon .theicon").attr("title"));
