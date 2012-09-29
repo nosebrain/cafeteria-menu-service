@@ -16,79 +16,82 @@ import de.nosebrain.widget.cafeteria.parser.MenuParser;
 
 public class CafeteriaConfigurer implements BeanFactoryPostProcessor {
 
-	private static CafeteriaInfo getCafeteriaInfo(final List<CafeteriaInfo> infos, final int index) {
-		try {
-			return infos.get(index);
-		} catch (final IndexOutOfBoundsException exception) {
-			final CafeteriaInfo cafeteriaInfo = new CafeteriaInfo();
-			for (int i = infos.size() - 1; i < index; i++) {
-				infos.add(null);
-			}
-			infos.set(index, cafeteriaInfo);
-			return cafeteriaInfo;
-		}
-	}
+  private static CafeteriaInfo getCafeteriaInfo(final List<CafeteriaInfo> infos, final int index) {
+    try {
+      return infos.get(index);
+    } catch (final IndexOutOfBoundsException exception) {
+      final CafeteriaInfo cafeteriaInfo = new CafeteriaInfo();
+      for (int i = infos.size() - 1; i < index; i++) {
+        infos.add(null);
+      }
+      infos.set(index, cafeteriaInfo);
+      return cafeteriaInfo;
+    }
+  }
 
-	private Properties properties;
-	private Map<String, UniversityInfo> configMap;
+  private Properties properties;
+  private Map<String, UniversityInfo> configMap;
 
-	public void postProcessBeanFactory(final ConfigurableListableBeanFactory beanFactory) throws BeansException {
-		for (final Object keyO : new TreeSet<Object>(this.properties.keySet())) {
-			final String key = (String) keyO;
-			if (key.startsWith("cafeteria.")) {
-				final String[] parts = key.split("\\.");
-				final String uniKey = parts[1];
-				UniversityInfo universityInfo = this.configMap.get(uniKey);
-				if (universityInfo == null) {
-					universityInfo = new UniversityInfo();
-					this.configMap.put(uniKey, universityInfo);
-				}
-				String value = this.properties.getProperty(key);
-				if (parts.length == 3) {
-					// TODO: color for widget
-					universityInfo.setName(value);
-				} else if (parts.length == 4) {
-					final int index = Integer.parseInt(parts[2]);
+  @Override
+  public void postProcessBeanFactory(final ConfigurableListableBeanFactory beanFactory) throws BeansException {
+    for (final Object keyO : new TreeSet<Object>(this.properties.keySet())) {
+      final String key = (String) keyO;
+      if (key.startsWith("cafeteria.")) {
+        final String[] parts = key.split("\\.");
+        final String uniKey = parts[1];
+        UniversityInfo universityInfo = this.configMap.get(uniKey);
+        if (universityInfo == null) {
+          universityInfo = new UniversityInfo();
+          this.configMap.put(uniKey, universityInfo);
+        }
+        final String value = this.properties.getProperty(key);
+        if (parts.length == 3) {
+          // TODO: color for widget
+          universityInfo.setName(value);
+        } else if (parts.length == 4) {
+          final int index = Integer.parseInt(parts[2]);
 
-					final List<CafeteriaInfo> infos = universityInfo.getCafeteriaInfos();
-					final CafeteriaInfo cafeteriaInfo = getCafeteriaInfo(infos, index);
-					String last = parts[3];
-					if ("name".equals(last)) {
-						cafeteriaInfo.setName(value);
-					}
-					
-					if ("disabled".equals(last)) {
-						cafeteriaInfo.setDisabled(Boolean.parseBoolean(value));
-					}
+          final List<CafeteriaInfo> infos = universityInfo.getCafeteriaInfos();
+          final CafeteriaInfo cafeteriaInfo = getCafeteriaInfo(infos, index);
+          final String last = parts[3];
+          if ("name".equals(last)) {
+            cafeteriaInfo.setName(value);
+          }
 
-					if ("url".equals(last)) {
-						cafeteriaInfo.setUrl(value);
-					}
-				}
-			}
-		}
+          if ("disabled".equals(last)) {
+            cafeteriaInfo.setDisabled(Boolean.parseBoolean(value));
+          }
 
-		// fill the parsers with the parsed information
-		for (final Entry<String, UniversityInfo> entry : this.configMap.entrySet()) {
-			final String key = entry.getKey();
-			final MenuParser parser = beanFactory.getBean(key + "_parser", MenuParser.class);
-			final UniversityInfo value = entry.getValue();
-			parser.setUniversityInfo(value);
-			beanFactory.registerSingleton(key, value);
-		}
-	}
+          if ("url".equals(last)) {
+            cafeteriaInfo.setUrl(value);
+          }
+        }
+      }
+    }
 
-	/**
-	 * @param properties the properties to set
-	 */
-	public void setProperties(final Properties properties) {
-		this.properties = properties;
-	}
+    // fill the parsers with the parsed information
+    for (final Entry<String, UniversityInfo> entry : this.configMap.entrySet()) {
+      final String key = entry.getKey();
+      final MenuParser parser = beanFactory.getBean(key + "_parser", MenuParser.class);
+      final UniversityInfo value = entry.getValue();
+      parser.setUniversityInfo(value);
+      beanFactory.registerSingleton(key, value);
+    }
+  }
 
-	/**
-	 * @param configMap the configMap to set
-	 */
-	public void setConfigMap(final Map<String, UniversityInfo> configMap) {
-		this.configMap = configMap;
-	}
+  /**
+   * @param properties
+   *          the properties to set
+   */
+  public void setProperties(final Properties properties) {
+    this.properties = properties;
+  }
+
+  /**
+   * @param configMap
+   *          the configMap to set
+   */
+  public void setConfigMap(final Map<String, UniversityInfo> configMap) {
+    this.configMap = configMap;
+  }
 }
