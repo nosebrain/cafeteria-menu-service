@@ -5,16 +5,17 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-import voldemort.client.StoreClient;
-import voldemort.versioning.Versioned;
 import de.nosebrain.widget.cafeteria.model.Cafeteria;
 import de.nosebrain.widget.cafeteria.parser.MenuParser;
+import de.nosebrain.widget.cafeteria.service.CafeteriaStore;
 
 /**
  * 
  * @author nosebrain
  */
+@Component
 public class CafeteriaService {
   private static final Logger LOGGER = LoggerFactory.getLogger(CafeteriaService.class);
 
@@ -22,13 +23,13 @@ public class CafeteriaService {
   private Map<String, MenuParser> parserMap;
 
   @Autowired
-  private StoreClient<String, Cafeteria> client;
+  private CafeteriaStore client;
 
   public Cafeteria getCafeteria(final String uni, final int id, final int week, final boolean forceUpdate) {
     final String key = key(uni, id, week);
-    Versioned<Cafeteria> cafeteriaVersion = this.client.get(key);
-    if (!forceUpdate && (cafeteriaVersion != null)) {
-      return cafeteriaVersion.getValue();
+    final Cafeteria storedCafeteria = this.client.getCafeteria(key);
+    if (!forceUpdate && (storedCafeteria != null)) {
+      return storedCafeteria;
     }
 
     final MenuParser parser = this.parserMap.get(uni + "_parser");
@@ -40,10 +41,7 @@ public class CafeteriaService {
       final Cafeteria cafeteria = parser.updateCafeteria(id, week);
       if (cafeteria != null) {
         // save in database
-        if (cafeteriaVersion == null) {
-          cafeteriaVersion = new Versioned<Cafeteria>(cafeteria);
-        }
-        this.client.put(key, cafeteriaVersion);
+        this.client.storeCafeteria(key, cafeteria);
         return cafeteria;
       }
     } catch (final Exception e) {

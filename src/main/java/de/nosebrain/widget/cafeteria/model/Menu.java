@@ -1,11 +1,13 @@
 package de.nosebrain.widget.cafeteria.model;
 
-import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Menu implements Serializable {
-  private static final long serialVersionUID = -3042285582845795034L;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
+@JsonInclude(Include.NON_EMPTY)
+public class Menu {
 
   private String description;
   private List<String> prices;

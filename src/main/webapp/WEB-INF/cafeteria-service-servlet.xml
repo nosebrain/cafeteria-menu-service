@@ -31,26 +31,31 @@
 	<!-- config -->
 	<mvc:annotation-driven>
 	    <mvc:message-converters register-defaults="false">
-	        <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" />
+	        <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" />
 	    </mvc:message-converters>
 	</mvc:annotation-driven>
 	
-	<context:component-scan base-package="de.nosebrain.widget.cafeteria.controller" />
+	<context:component-scan base-package="de.nosebrain.widget.cafeteria" />
 	
-	<bean id="clientConfig" class="voldemort.client.ClientConfig">
-	    <property name="bootstrapUrls" value="${database.url}" />
+	<bean id="mainDataSource" class="org.apache.tomcat.dbcp.dbcp.BasicDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="${database.url}" />
+		<property name="username" value="${database.username}" />
+		<property name="password" value="${database.password}" />
+		<property name="validationQuery" value="select 42" />
+		<property name="minEvictableIdleTimeMillis" value="3600000" />
+		<property name="timeBetweenEvictionRunsMillis" value="1800000" />
+		<property name="numTestsPerEvictionRun" value="10" />
+		<property name="testWhileIdle" value="true" />
+		<property name="testOnBorrow" value="true" />
+		<property name="testOnReturn" value="false" />
 	</bean>
 	
-	<bean id="clientFactory" class="voldemort.client.SocketStoreClientFactory">
-	    <constructor-arg ref="clientConfig" />
+	<bean id="mainSqlSessionFactory" class="de.nosebrain.spring.beans.SqlSessionFactoryFactoryBean">
+		<property name="dataSource" ref="mainDataSource" />
+		<property name="configLocation" value="classpath:de/nosebrain/widget/cafeteria/database/mysql/cafeteria-service-database.xml" />
 	</bean>
-	
-	<bean id="client" class="voldemort.client.StoreClient" factory-bean="clientFactory" factory-method="getStoreClient">
-		<constructor-arg value="${database.store}" />
-	</bean>
-	
-	<bean id="service" class="de.nosebrain.widget.cafeteria.CafeteriaService" />
-	
+		
 	<util:map id="universityInfoMap" key-type="java.lang.String" value-type="de.nosebrain.widget.cafeteria.model.UniversityInfo" />
 
 	<bean id="configurator" class="de.nosebrain.widget.cafeteria.CafeteriaConfigurer">

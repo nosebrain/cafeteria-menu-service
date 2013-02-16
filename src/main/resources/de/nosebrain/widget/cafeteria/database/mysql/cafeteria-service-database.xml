@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?> <!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+	<typeAliases>
+		<typeAlias type="de.nosebrain.widget.cafeteria.database.mysql.param.CafeteriaParam" alias="CafeteriaParam"/>
+	</typeAliases>
+	
+	<mappers>
+		<mapper resource="de/nosebrain/widget/cafeteria/database/mysql/mapper/CafeteriaMapper.xml" />
+	</mappers>
+</configuration>

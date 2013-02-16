@@ -50,11 +50,16 @@ public class KasselParser extends AbstractMenuParser {
     for (int i = 0; i < 5; i++) {
       cafeteria.addDay(new Day());
     }
-    for (int i = 3; i < 11; i += 2) {
-      final Element tr = select.get(i);
-      final Element priceTr = select.get(i + 1);
-
+    
+    int pos = 3;
+    while (true) {
+      final Element tr = select.get(pos);
       final Elements tds = tr.select("td");
+      if (tds.size() == 2) {
+        break;
+      }
+      final Element priceTr = select.get(pos + 1);
+
       final Elements priceTds = priceTr.select("td");
       for (int j = 1; j < tds.size(); j++) {
         final Element td = tds.get(j);
@@ -72,6 +77,7 @@ public class KasselParser extends AbstractMenuParser {
           cafeteria.getDays().get(j - 1).addMenu(menu);
         }
       }
+      pos += 2;
     }
     return cafeteria;
   }
