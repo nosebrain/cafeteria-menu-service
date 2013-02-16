@@ -1,16 +1,22 @@
 package de.nosebrain.widget.cafeteria.model;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Cafeteria implements Serializable {
-  private static final long serialVersionUID = -6266505147840167563L;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
+@JsonInclude(Include.NON_EMPTY)
+public class Cafeteria {
+
+  @JsonInclude(Include.NON_DEFAULT)
   private boolean closed;
   private List<Day> days;
+  @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd.MM.yyyy", timezone="Europe/Berlin")
   private Date weekStart;
+  @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd.MM.yyyy", timezone="Europe/Berlin")
   private Date weekEnd;
   private String foodInfo = "";
 
