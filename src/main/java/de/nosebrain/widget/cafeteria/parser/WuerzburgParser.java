@@ -55,6 +55,9 @@ public class WuerzburgParser extends AbstractMenuParser {
               menu.setDescription(menuElement.select(".title").text());
 
               final Elements price = menuElement.select(".price");
+              if (price.size() == 0) {
+                continue;
+              }
               menu.addPrice(AbstractMenuParser.cleanPrice(price.attr("data-default")));
               menu.addPrice(AbstractMenuParser.cleanPrice(price.attr("data-bed")));
               menu.addPrice(AbstractMenuParser.cleanPrice(price.attr("data-guest")));

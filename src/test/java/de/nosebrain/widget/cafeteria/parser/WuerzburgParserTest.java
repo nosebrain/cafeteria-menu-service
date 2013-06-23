@@ -46,4 +46,46 @@ public class WuerzburgParserTest {
     final Day wed = days.get(2);
     assertTrue(wed.isHoliday());
   }
+  
+  @Test
+  public void test2013_26_1() throws Exception {
+    final InputStream inputStream = WuerzburgParserTest.class.getClassLoader().getResourceAsStream("wuerzburg/2013-26-1.html");
+    final Document document = Jsoup.parse(inputStream, "UTF-8", "");
+    final Cafeteria extractInformations = PARSER.extractInformations(document, 26);
+    assertFalse(extractInformations.isClosed());
+
+    final List<Day> days = extractInformations.getDays();
+    assertEquals(5, days.size());
+
+    final Day mon = days.get(0);
+
+    final List<Menu> menu = mon.getFood();
+    assertEquals(6, menu.size());
+
+    assertEquals("Giant Chickenburger mit Steakhousepommes und Coleslaw", menu.get(1).getDescription());
+    final Day wed = days.get(2);
+    final Menu menuWed5 = wed.getFood().get(4);
+    assertEquals("Gnocchigratin mit Tomaten, roten Zwiebln und Gorgonzola", menuWed5.getDescription());
+  }
+  
+  @Test
+  public void test2013_26_2() throws Exception {
+    final InputStream inputStream = WuerzburgParserTest.class.getClassLoader().getResourceAsStream("wuerzburg/2013-26-2.html");
+    final Document document = Jsoup.parse(inputStream, "UTF-8", "");
+    final Cafeteria extractInformations = PARSER.extractInformations(document, 26);
+    assertFalse(extractInformations.isClosed());
+
+    final List<Day> days = extractInformations.getDays();
+    assertEquals(5, days.size());
+
+    final Day mon = days.get(0);
+
+    final List<Menu> menu = mon.getFood();
+    assertEquals(3, menu.size());
+
+    assertEquals("Putensteak an Chilidip", menu.get(1).getDescription());
+    final Day wed = days.get(2);
+    final Menu menuWed5 = wed.getFood().get(2);
+    assertEquals("Bohnen-Zucchini-Chili mit Vollkornreis", menuWed5.getDescription());
+  }
 }
