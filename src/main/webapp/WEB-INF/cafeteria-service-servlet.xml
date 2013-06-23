@@ -66,4 +66,6 @@
 	<bean id="uni-ks_parser" class="de.nosebrain.widget.cafeteria.parser.KasselParser" />
 	<bean id="uni-wue_parser" class="de.nosebrain.widget.cafeteria.parser.WuerzburgParser" />
 	<bean id="uni-bam_parser" class="de.nosebrain.widget.cafeteria.parser.WuerzburgParser" />
+	
+	<import resource="cafeteria-service-security.xml" />
 </beans>
