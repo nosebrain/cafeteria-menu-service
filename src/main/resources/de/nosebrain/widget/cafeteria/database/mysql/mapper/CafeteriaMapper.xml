@@ -8,5 +8,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<insert id="insertCafeteria" parameterType="CafeteriaParam">
 		INSERT INTO cafeteria (`key`, data) VALUES (#{key}, #{value})
+			ON DUPLICATE KEY UPDATE data = #{value}
 	</insert>
 </mapper>
