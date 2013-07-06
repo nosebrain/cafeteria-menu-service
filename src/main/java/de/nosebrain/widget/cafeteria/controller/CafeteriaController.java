@@ -6,6 +6,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import de.nosebrain.widget.cafeteria.CafeteriaService;
 import de.nosebrain.widget.cafeteria.model.Cafeteria;
 import de.nosebrain.widget.cafeteria.model.UniversityInfo;
+import de.nosebrain.widget.cafeteria.security.UserdetailsPropertyService;
 
 @Controller
 public class CafeteriaController {
@@ -38,11 +41,17 @@ public class CafeteriaController {
   }
 
   @RequestMapping(CAFETERIA_MAPPING)
-  public @ResponseBody Cafeteria getCafeteria(@PathVariable(UNI_PLACEHOLDER) final String uni, @PathVariable(CAFETERIA_PLACEHOLDER) final int cafeteria, @PathVariable(WEEK_PLACEHOLDER) final int week, @RequestParam(value = "force", required = false) final boolean force) {
+  public @ResponseBody Cafeteria getCafeteria(@PathVariable(UNI_PLACEHOLDER) final String uni, @PathVariable(CAFETERIA_PLACEHOLDER) final int cafeteria, @PathVariable(WEEK_PLACEHOLDER) final int week, @RequestParam(value = "force", required = false) boolean force, final Authentication principal) {
     if (force) {
-      // TODO: check admin access
+      if (!isAdmin(principal)) {
+        force = false;
+      }
     }
     return this.service.getCafeteria(uni, cafeteria, week, force);
+  }
+
+  private static boolean isAdmin(final Authentication principal) {
+    return principal.getAuthorities().contains(new SimpleGrantedAuthority(UserdetailsPropertyService.ADMIN_ROLE));
   }
 
   @ExceptionHandler(Throwable.class)
