@@ -1,6 +1,7 @@
 package de.nosebrain.widget.cafeteria.parser;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
 
 import java.io.InputStream;
@@ -46,6 +47,9 @@ public class KasselParserTest {
     final List<Menu> moFood = mo.getFood();
     assertEquals(3, moFood.size());
     assertEquals("Rührei mit Blattspinat (f)", moFood.get(0).getDescription());
+    assertNotNull(cafeteria.getWeekEnd());
+    assertNotNull(cafeteria.getWeekStart()); // TODO: test more
+    assertEquals("(1) mit Farbstoff, (2) mit Konservierungsstoff, (3) mit Antioxidationsmittel, (4) mit Geschmacksverstärker, (5) geschwefelt, (6) geschwärzt, (7) gewachst, (8) mit Phosphat, (9) mit Süßungsmitteln, (9a) mit einer Zuckerart und Süßungsmitteln, (10) mit einer Phenylalaninquelle, (f) fleischlos, (v) vegan, (ö) ökologisch, DE-Öko-034, (s) Schweinefleisch bzw. Schweinefl.-Anteile, (r) Rindfleisch bzw. Rindfl.-Anteile, (a) mit Alkohol, (g) mit Gelatine. Wir verwenden ausschl. jodiertes Speisesalz. ", cafeteria.getFoodInfo());
   }
   
   @Test

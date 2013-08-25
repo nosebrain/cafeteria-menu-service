@@ -69,6 +69,7 @@ public class WuerzburgParser extends AbstractMenuParser {
             cafeteria.addDay(day);
           }
         }
+        cafeteria.setFoodInfo(document.select(".content").last().text());
         return cafeteria;
       }
     }

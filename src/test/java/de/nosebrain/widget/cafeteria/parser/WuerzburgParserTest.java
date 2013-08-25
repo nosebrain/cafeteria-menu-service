@@ -2,6 +2,7 @@ package de.nosebrain.widget.cafeteria.parser;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
 
 import java.io.InputStream;
@@ -45,6 +46,10 @@ public class WuerzburgParserTest {
     assertEquals("Hähnchenbrustfilet an Portweinsoße", menu.get(1).getDescription());
     final Day wed = days.get(2);
     assertTrue(wed.isHoliday());
+    
+    assertEquals("Änderungen möglich! Die Gerichte können sich kurzfristig abändern oder ausverkauft sein. DE-ÖKO-006 (Zertifizierung)", extractInformations.getFoodInfo());
+    assertNotNull(extractInformations.getWeekEnd());
+    assertNotNull(extractInformations.getWeekStart());
   }
   
   @Test
@@ -87,5 +92,27 @@ public class WuerzburgParserTest {
     final Day wed = days.get(2);
     final Menu menuWed5 = wed.getFood().get(2);
     assertEquals("Bohnen-Zucchini-Chili mit Vollkornreis", menuWed5.getDescription());
+  }
+  
+  @Test
+  public void test2013_29_1() throws Exception {
+    final InputStream inputStream = WuerzburgParserTest.class.getClassLoader().getResourceAsStream("wuerzburg/2013-29-1.html");
+    final Document document = Jsoup.parse(inputStream, "UTF-8", "");
+    final Cafeteria extractInformations = PARSER.extractInformations(document, 29);
+    assertFalse(extractInformations.isClosed());
+    for (final Day day : extractInformations.getDays()) {
+      final List<Menu> menu = day.getFood();
+      assertEquals(6, menu.size());
+      assertEquals("Tagliata vom Rind mit Rucola und Parmesan", menu.get(0).getDescription());
+    }
+  }
+  
+  @Test
+  public void test2013_30_1() throws Exception {
+    final InputStream inputStream = WuerzburgParserTest.class.getClassLoader().getResourceAsStream("wuerzburg/2013-29-1.html");
+    final Document document = Jsoup.parse(inputStream, "UTF-8", "");
+    final Cafeteria extractInformations = PARSER.extractInformations(document, 30);
+    
+    assertTrue(extractInformations.isClosed());
   }
 }
