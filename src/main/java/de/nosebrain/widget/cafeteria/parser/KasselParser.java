@@ -79,6 +79,15 @@ public class KasselParser extends AbstractMenuParser {
       }
       pos += 2;
     }
+    
+    final Calendar calendar = Calendar.getInstance();
+    calendar.setTime(date);
+    calendar.add(Calendar.DATE, 4);
+    final Date endDate = calendar.getTime();
+    
+    cafeteria.setWeekStart(date);
+    cafeteria.setWeekEnd(endDate);
+    cafeteria.setFoodInfo(document.select(".gelbunten").text());
     return cafeteria;
   }
 }
