@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
+@Deprecated // TODO: user inmemory user details manager
 public class UserdetailsPropertyService implements UserDetailsService, InitializingBean {
 
   private static final String ROLE_PREFIX = "ROLE_";
