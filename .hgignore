@@ -9,3 +9,6 @@ target
 work
 
 .tomcatplugin
+
+release.properties
+pom.xml.releaseBackup
