@@ -1,5 +1,10 @@
 package de.nosebrain.widget.cafeteria.parser;
 
+import static de.nosebrain.util.ValidationUtils.present;
+
+import java.util.HashSet;
+import java.util.Set;
+
 import org.joda.time.DateTime;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -20,10 +25,10 @@ public class WuerzburgParser extends AbstractMenuParser {
   protected Cafeteria extractInformations(final Document document, final int requestedWeek) throws Exception {
     final Cafeteria cafeteria = new Cafeteria();
     final Elements weeks = document.select(".mensamenu .week");
-
+    
     for (final Element weekElement : weeks) {
       final String week = weekElement.attr("data-kw").trim().substring(2);
-
+      
       if (Integer.parseInt(week) == requestedWeek) {
         final Elements dayElements = weekElement.select(".day");
         if (dayElements.size() == 0) {
@@ -43,19 +48,23 @@ public class WuerzburgParser extends AbstractMenuParser {
             final String date = dayElement.select("h5").text();
             final String[] split = date.split(" ");
             // check for holiday
-            if (getDay(split[0]) != cafeteria.getDays().size()) {
+            final int dayIndex = getDay(split[0]);
+            while (dayIndex != cafeteria.getDays().size()) {
               final Day holiday = new Day();
               holiday.setHoliday(true);
               cafeteria.addDay(holiday);
             }
-
+            
+            final Set<String> informations = new HashSet<String>();
             final Elements menuElements = dayElement.select(".menu");
             for (final Element menuElement : menuElements) {
               final Menu menu = new Menu();
-              menu.setDescription(menuElement.select(".title").text());
-
+              final String text = menuElement.select(".title").text();
+              menu.setDescription(text);
+              
               final Elements price = menuElement.select(".price");
               if (price.size() == 0) {
+                informations.add(text);
                 continue;
               }
               menu.addPrice(AbstractMenuParser.cleanPrice(price.attr("data-default")));
@@ -65,7 +74,7 @@ public class WuerzburgParser extends AbstractMenuParser {
               // TODO: each
               day.addMenu(menu);
             }
-
+            checkDay(day, informations);
             cafeteria.addDay(day);
           }
         }
@@ -77,23 +86,32 @@ public class WuerzburgParser extends AbstractMenuParser {
     return null;
   }
 
+  private static void checkDay(final Day day, final Set<String> informations) {
+    if (!present(day.getFood())) {
+      day.setHoliday(true);
+      if (informations.size() == 1) {
+        day.setMessage(informations.iterator().next());
+      }
+    }
+  }
+
   private static int getDay(final String string) {
     if ("Montag".equals(string)) {
       return 0;
     }
-
+    
     if ("Dienstag".equals(string)) {
       return 1;
     }
-
+    
     if ("Mittwoch".equals(string)) {
       return 2;
     }
-
+    
     if ("Donnerstag".equals(string)) {
       return 3;
     }
-
+    
     if ("Freitag".equals(string)) {
       return 4;
     }
