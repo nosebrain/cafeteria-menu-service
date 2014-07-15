@@ -18,11 +18,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import de.nosebrain.widget.cafeteria.CafeteriaService;
 import de.nosebrain.widget.cafeteria.model.Cafeteria;
 import de.nosebrain.widget.cafeteria.model.UniversityInfo;
-import de.nosebrain.widget.cafeteria.security.UserdetailsPropertyService;
 
 @Controller
 public class CafeteriaController {
 
+  private static final SimpleGrantedAuthority ADMIN_ROLE = new SimpleGrantedAuthority("admin");
+  
   private static final String UNI_PLACEHOLDER = "uni";
   private static final String CAFETERIA_PLACEHOLDER = "id";
   private static final String WEEK_PLACEHOLDER = "week";
@@ -51,7 +52,7 @@ public class CafeteriaController {
   }
 
   private static boolean isAdmin(final Authentication principal) {
-    return principal.getAuthorities().contains(new SimpleGrantedAuthority(UserdetailsPropertyService.ADMIN_ROLE));
+    return principal.getAuthorities().contains(ADMIN_ROLE);
   }
 
   @ExceptionHandler(Throwable.class)
