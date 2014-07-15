@@ -1,5 +1,6 @@
 package de.nosebrain.widget.cafeteria;
 
+import java.util.Calendar;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -26,7 +27,8 @@ public class CafeteriaService {
   private CafeteriaStore client;
 
   public Cafeteria getCafeteria(final String uni, final int id, final int week, final boolean forceUpdate) {
-    final String key = key(uni, id, week);
+    final Calendar calendar = Calendar.getInstance();
+    final String key = key(uni, id, week, calendar.get(Calendar.YEAR));
     final Cafeteria storedCafeteria = this.client.getCafeteria(key);
     if (!forceUpdate && (storedCafeteria != null)) {
       return storedCafeteria;
@@ -51,7 +53,7 @@ public class CafeteriaService {
     throw new IllegalStateException("can't get any menu for cafeteria");
   }
 
-  private static String key(final String uni, final int id, final int week) {
-    return uni + "_" + id + "_" + week;
+  private static String key(final String uni, final int id, final int week, final int year) {
+    return uni + "_" + id + "_" + week + "_" + year;
   }
 }
