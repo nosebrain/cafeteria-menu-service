@@ -3,7 +3,7 @@
 
 	<groupId>de.nosebrain</groupId>
 	<artifactId>cafeteria-service</artifactId>
-	<version>0.0.3-SNAPSHOT</version>
+	<version>0.0.3</version>
 	<packaging>war</packaging>
 
 	<name>cafeteria-service</name>
@@ -11,7 +11,7 @@
 	<scm>
 		<connection>scm:hg:ssh://hg@bitbucket.org/nosebrain/cafeteria-menu-service</connection>
 		<developerConnection>scm:hg:ssh://hg@bitbucket.org/nosebrain/cafeteria-menu-service</developerConnection>
-		<tag>HEAD</tag>
+		<tag>0.0.3</tag>
 	</scm>
 
 	<properties>
