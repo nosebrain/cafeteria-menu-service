@@ -63,5 +63,20 @@ public class MySQLCafeteriaStore implements CafeteriaStore {
       throw new RuntimeException(e);
     }
   }
+  
+  @Override
+  public void storeMetaData(final String key, final String metaData) {
+    final SqlSession session = this.factory.openSession();
+    try {
+      final CafeteriaParam param = new CafeteriaParam();
+      param.setKey(key);
+      param.setValue(metaData);
+      
+      session.insert("insertMetaData", param);
+      session.commit();
+    } finally {
+      session.close();
+    }
+  }
 
 }

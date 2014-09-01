@@ -10,4 +10,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		INSERT INTO cafeteria (`key`, data) VALUES (#{key}, #{value})
 			ON DUPLICATE KEY UPDATE data = #{value}
 	</insert>
+	
+	<insert id="insertMetaData" parameterType="CafeteriaParam">
+		INSERT INTO metadata (`key`, data) VALUES (#{key}, #{value})
+			ON DUPLICATE KEY UPDATE data = #{value}
+	</insert>
 </mapper>
