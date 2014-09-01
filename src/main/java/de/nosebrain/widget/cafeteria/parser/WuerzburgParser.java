@@ -30,19 +30,19 @@ public class WuerzburgParser extends AbstractMenuParser {
       final String week = weekElement.attr("data-kw").trim().substring(2);
       
       if (Integer.parseInt(week) == requestedWeek) {
+        /*
+         * set week start and end
+         */
+        final DateTime dateTime = new DateTime();
+        final DateTime weekStart = dateTime.withWeekOfWeekyear(requestedWeek).withDayOfWeek(1).withTimeAtStartOfDay();
+        final DateTime weekEnd = dateTime.withWeekOfWeekyear(requestedWeek).withDayOfWeek(5).withTimeAtStartOfDay();
+        cafeteria.setWeekStart(weekStart.toDate());
+        cafeteria.setWeekEnd(weekEnd.toDate());
+        
         final Elements dayElements = weekElement.select(".day");
         if (dayElements.size() == 0) {
           cafeteria.setClosed(true);
         } else {
-          /*
-           * set week start and end
-           */
-          final DateTime dateTime = new DateTime();
-          final DateTime weekStart = dateTime.withWeekOfWeekyear(requestedWeek).withDayOfWeek(1).withTimeAtStartOfDay();
-          final DateTime weekEnd = dateTime.withWeekOfWeekyear(requestedWeek).withDayOfWeek(5).withTimeAtStartOfDay();
-          cafeteria.setWeekStart(weekStart.toDate());
-          cafeteria.setWeekEnd(weekEnd.toDate());
-          
           for (final Element dayElement : dayElements) {
             final Day day = new Day();
             final String date = dayElement.select("h5").text();

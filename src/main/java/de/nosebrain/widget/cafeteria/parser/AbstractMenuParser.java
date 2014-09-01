@@ -24,7 +24,7 @@ public abstract class AbstractMenuParser implements MenuParser {
   @Override
   public final Cafeteria updateCafeteria(final int id, final int week) throws Exception {
     try {
-      final CafeteriaInfo cafeteriaInfo = this.uniInfo.getCafeteriaInfos().get(id);
+      final CafeteriaInfo cafeteriaInfo = this.uniInfo.getCafeterias().get(id);
 
       if (cafeteriaInfo.isDisabled()) {
         final Cafeteria closedCafeteria = new Cafeteria();
