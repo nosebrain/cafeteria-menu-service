@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import de.nosebrain.common.exception.ResourceNotFoundException;
 import de.nosebrain.widget.cafeteria.model.Cafeteria;
 import de.nosebrain.widget.cafeteria.parser.CafeteriaParserResult;
 import de.nosebrain.widget.cafeteria.parser.MenuParser;
@@ -28,7 +29,7 @@ public class CafeteriaService {
   @Autowired
   private CafeteriaStore client;
 
-  public Cafeteria getCafeteria(final String uni, final int id, final int year, final int week, final boolean forceUpdate) {
+  public Cafeteria getCafeteria(final String uni, final int id, final int year, final int week, final boolean forceUpdate) throws ResourceNotFoundException {
     final String key = key(uni, id, week, year);
     final Cafeteria storedCafeteria = this.client.getCafeteria(key);
     if (!forceUpdate && (storedCafeteria != null)) {
@@ -57,7 +58,7 @@ public class CafeteriaService {
       LOGGER.error("exeception while updating or caching cafeteria.", e);
     }
 
-    throw new IllegalStateException("can't get any menu for cafeteria");
+    throw new ResourceNotFoundException();
   }
 
   private static String key(final String uni, final int id, final int week, final int year) {
