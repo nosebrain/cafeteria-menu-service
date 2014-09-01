@@ -51,8 +51,8 @@ public class CafeteriaConfigurer implements BeanFactoryPostProcessor {
         } else if (parts.length == 4) {
           final int index = Integer.parseInt(parts[2]);
 
-          final List<CafeteriaInfo> infos = universityInfo.getCafeteriaInfos();
-          final CafeteriaInfo cafeteriaInfo = getCafeteriaInfo(infos, index);
+          final List<CafeteriaInfo> cafeterias = universityInfo.getCafeterias();
+          final CafeteriaInfo cafeteriaInfo = getCafeteriaInfo(cafeterias, index);
           final String last = parts[3];
           if ("name".equals(last)) {
             cafeteriaInfo.setName(value);

@@ -1,5 +1,7 @@
 package de.nosebrain.widget.cafeteria.controller;
 
+import static de.nosebrain.util.ValidationUtils.present;
+
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
@@ -37,12 +39,14 @@ public class CafeteriaController {
   private Map<String, UniversityInfo> universityInfo;
 
   @RequestMapping("/")
-  public @ResponseBody Map<String, UniversityInfo> getSupportedSites() {
+  @ResponseBody
+  public Map<String, UniversityInfo> getSupportedSites() {
     return this.universityInfo;
   }
 
   @RequestMapping(CAFETERIA_MAPPING)
-  public @ResponseBody Cafeteria getCafeteria(@PathVariable(UNI_PLACEHOLDER) final String uni, @PathVariable(CAFETERIA_PLACEHOLDER) final int cafeteria, @PathVariable(WEEK_PLACEHOLDER) final int week, @RequestParam(value = "force", required = false) boolean force, final Authentication principal) {
+  @ResponseBody
+  public Cafeteria getCafeteria(@PathVariable(UNI_PLACEHOLDER) final String uni, @PathVariable(CAFETERIA_PLACEHOLDER) final int cafeteria, @PathVariable(WEEK_PLACEHOLDER) final int week, @RequestParam(value = "force", required = false) boolean force, final Authentication principal) {
     if (force) {
       if (!isAdmin(principal)) {
         force = false;
@@ -52,11 +56,15 @@ public class CafeteriaController {
   }
 
   private static boolean isAdmin(final Authentication principal) {
+    if (!present(principal)) {
+      return false;
+    }
     return principal.getAuthorities().contains(ADMIN_ROLE);
   }
 
   @ExceptionHandler(Throwable.class)
-  public @ResponseBody Status handleException(final Throwable e, final HttpServletResponse response) {
+  @ResponseBody
+  public Status handleException(final Throwable e, final HttpServletResponse response) {
     response.setStatus(HttpStatus.SERVICE_UNAVAILABLE.value());
     return new Status(e.getMessage());
   }

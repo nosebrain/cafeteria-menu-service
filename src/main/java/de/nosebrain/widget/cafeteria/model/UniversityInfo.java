@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class UniversityInfo {
   private String name;
-  private List<CafeteriaInfo> cafeteriaInfos;
+  private List<CafeteriaInfo> cafeterias;
 
   /**
    * @return the name
@@ -29,19 +29,19 @@ public class UniversityInfo {
   /**
    * @return the cafeteriaInfos
    */
-  public List<CafeteriaInfo> getCafeteriaInfos() {
-    if (this.cafeteriaInfos == null) {
-      this.cafeteriaInfos = new LinkedList<CafeteriaInfo>();
+  public List<CafeteriaInfo> getCafeterias() {
+    if (this.cafeterias == null) {
+      this.cafeterias = new LinkedList<CafeteriaInfo>();
     }
-    return this.cafeteriaInfos;
+    return this.cafeterias;
   }
 
   /**
    * @param cafeteriaInfos
    *          the cafeteriaInfos to set
    */
-  public void setCafeteriaInfos(final List<CafeteriaInfo> cafeteriaInfos) {
-    this.cafeteriaInfos = cafeteriaInfos;
+  public void setCafeterias(final List<CafeteriaInfo> cafeterias) {
+    this.cafeterias = cafeterias;
   }
 
 }
