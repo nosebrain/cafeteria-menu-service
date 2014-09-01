@@ -142,4 +142,20 @@ public class WuerzburgParserTest {
     assertTrue(tuesday.isHoliday());
     assertEquals("Betriebsausflug", tuesday.getMessage());
   }
+  
+  @Test
+  public void test2014_36_3() throws Exception {
+    final InputStream inputStream = WuerzburgParserTest.class.getClassLoader().getResourceAsStream("wuerzburg/2014-36-3.html");
+    final Document document = Jsoup.parse(inputStream, "UTF-8", "");
+    final Cafeteria extractInformations = PARSER.extractInformations(document, 36);
+    
+    final Day monday = extractInformations.getDays().get(0);
+    assertEquals(5, monday.getFood().size());
+    
+    final Day thursday = extractInformations.getDays().get(3);
+    assertEquals(3, thursday.getFood().size());
+    
+    final Day friday = extractInformations.getDays().get(4);
+    assertEquals(3, friday.getFood().size());
+  }
 }

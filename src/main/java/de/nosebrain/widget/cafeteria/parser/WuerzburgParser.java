@@ -63,7 +63,7 @@ public class WuerzburgParser extends AbstractMenuParser {
               menu.setDescription(text);
               
               final Elements price = menuElement.select(".price");
-              if (price.size() == 0) {
+              if ((price.size() == 0) && isMessage(text)) {
                 informations.add(text);
                 continue;
               }
@@ -93,6 +93,10 @@ public class WuerzburgParser extends AbstractMenuParser {
         day.setMessage(informations.iterator().next());
       }
     }
+  }
+  
+  private static boolean isMessage(final String message) {
+    return message.contains("findet") || message.contains("öffnet") || message.contains("ausflug") || message.contains("geschlossen");
   }
 
   private static int getDay(final String string) {
