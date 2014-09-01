@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import de.nosebrain.common.exception.ResourceNotFoundException;
 import de.nosebrain.widget.cafeteria.CafeteriaService;
 import de.nosebrain.widget.cafeteria.model.Cafeteria;
 import de.nosebrain.widget.cafeteria.model.UniversityInfo;
@@ -47,7 +48,7 @@ public class CafeteriaController {
 
   @RequestMapping(CAFETERIA_MAPPING)
   @ResponseBody
-  public Cafeteria getCafeteria(@PathVariable(UNI_PLACEHOLDER) final String uni, @PathVariable(CAFETERIA_PLACEHOLDER) final int cafeteria, @PathVariable(WEEK_PLACEHOLDER) final String yearAndWeek, @RequestParam(value = "force", required = false) boolean force, final Authentication principal) {
+  public Cafeteria getCafeteria(@PathVariable(UNI_PLACEHOLDER) final String uni, @PathVariable(CAFETERIA_PLACEHOLDER) final int cafeteria, @PathVariable(WEEK_PLACEHOLDER) final String yearAndWeek, @RequestParam(value = "force", required = false) boolean force, final Authentication principal) throws ResourceNotFoundException {
     if (force) {
       if (!isAdmin(principal)) {
         force = false;
@@ -86,11 +87,25 @@ public class CafeteriaController {
     }
     return principal.getAuthorities().contains(ADMIN_ROLE);
   }
+  
+  @ExceptionHandler(IllegalArgumentException.class)
+  @ResponseBody
+  public Status handleResourceNotFoundException(final IllegalArgumentException e, final HttpServletResponse response) {
+    response.setStatus(HttpStatus.BAD_REQUEST.value());
+    return new Status(e.getMessage());
+  }
+  
+  @ExceptionHandler(ResourceNotFoundException.class)
+  @ResponseBody
+  public Status handleResourceNotFoundException(final ResourceNotFoundException e, final HttpServletResponse response) {
+    response.setStatus(HttpStatus.NOT_FOUND.value());
+    return new Status("no menu found");
+  }
 
   @ExceptionHandler(Throwable.class)
   @ResponseBody
   public Status handleException(final Throwable e, final HttpServletResponse response) {
-    response.setStatus(HttpStatus.SERVICE_UNAVAILABLE.value());
+    response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
     return new Status(e.getMessage());
   }
 }
