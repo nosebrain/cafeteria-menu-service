@@ -2,7 +2,6 @@ package de.nosebrain.widget.cafeteria;
 
 import static de.nosebrain.util.ValidationUtils.present;
 
-import java.util.Calendar;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -29,9 +28,8 @@ public class CafeteriaService {
   @Autowired
   private CafeteriaStore client;
 
-  public Cafeteria getCafeteria(final String uni, final int id, final int week, final boolean forceUpdate) {
-    final Calendar calendar = Calendar.getInstance();
-    final String key = key(uni, id, week, calendar.get(Calendar.YEAR));
+  public Cafeteria getCafeteria(final String uni, final int id, final int year, final int week, final boolean forceUpdate) {
+    final String key = key(uni, id, week, year);
     final Cafeteria storedCafeteria = this.client.getCafeteria(key);
     if (!forceUpdate && (storedCafeteria != null)) {
       return storedCafeteria;

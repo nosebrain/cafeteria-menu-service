@@ -2,6 +2,7 @@ package de.nosebrain.widget.cafeteria.controller;
 
 import static de.nosebrain.util.ValidationUtils.present;
 
+import java.util.Calendar;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
@@ -46,13 +47,37 @@ public class CafeteriaController {
 
   @RequestMapping(CAFETERIA_MAPPING)
   @ResponseBody
-  public Cafeteria getCafeteria(@PathVariable(UNI_PLACEHOLDER) final String uni, @PathVariable(CAFETERIA_PLACEHOLDER) final int cafeteria, @PathVariable(WEEK_PLACEHOLDER) final int week, @RequestParam(value = "force", required = false) boolean force, final Authentication principal) {
+  public Cafeteria getCafeteria(@PathVariable(UNI_PLACEHOLDER) final String uni, @PathVariable(CAFETERIA_PLACEHOLDER) final int cafeteria, @PathVariable(WEEK_PLACEHOLDER) final String yearAndWeek, @RequestParam(value = "force", required = false) boolean force, final Authentication principal) {
     if (force) {
       if (!isAdmin(principal)) {
         force = false;
       }
     }
-    return this.service.getCafeteria(uni, cafeteria, week, force);
+    final int week;
+    int year;
+    if (yearAndWeek.contains("_")) {
+      final String[] yearWeekSplit = yearAndWeek.split("_");
+      year = Integer.parseInt(yearWeekSplit[0]);
+      week = Integer.parseInt(yearWeekSplit[1]);
+    } else {
+      week = Integer.parseInt(yearAndWeek);
+      final Calendar calendar = Calendar.getInstance();
+      year = calendar.get(Calendar.YEAR);
+      final int currentWeek = calendar.get(Calendar.WEEK_OF_YEAR);
+      if (currentWeek > week) {
+        year++;
+      }
+    }
+    
+    if ((week < 1) || (week > 54)) {
+      throw new IllegalArgumentException("invalid week '" + week + "'");
+    }
+    
+    if ((year / 1000) < 1) {
+      throw new IllegalArgumentException("invalid year '" + year + "'");
+    }
+    
+    return this.service.getCafeteria(uni, cafeteria, year, week, force);
   }
 
   private static boolean isAdmin(final Authentication principal) {
