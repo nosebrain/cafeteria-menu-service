@@ -22,7 +22,7 @@ public abstract class AbstractMenuParser implements MenuParser {
   private UniversityInfo uniInfo;
 
   @Override
-  public final Cafeteria updateCafeteria(final int id, final int week) throws Exception {
+  public final CafeteriaParserResult updateCafeteria(final int id, final int week) throws Exception {
     try {
       final CafeteriaInfo cafeteriaInfo = this.uniInfo.getCafeterias().get(id);
 
@@ -33,12 +33,12 @@ public abstract class AbstractMenuParser implements MenuParser {
           day.setHoliday(true);
           closedCafeteria.addDay(day);
         }
-        return closedCafeteria;
+        return new CafeteriaParserResult(closedCafeteria);
       }
 
       final String url = cafeteriaInfo.getUrl();
       final Document document = Jsoup.connect(url).get();
-      return this.extractInformations(document, week);
+      return new CafeteriaParserResult(this.extractInformations(document, week), document.html());
     } catch (final IndexOutOfBoundsException e) {
       throw new IllegalArgumentException("unknown cafeteria, id=" + id);
     }

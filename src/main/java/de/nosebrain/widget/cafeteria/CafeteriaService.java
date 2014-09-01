@@ -1,5 +1,7 @@
 package de.nosebrain.widget.cafeteria;
 
+import static de.nosebrain.util.ValidationUtils.present;
+
 import java.util.Calendar;
 import java.util.Map;
 
@@ -9,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import de.nosebrain.widget.cafeteria.model.Cafeteria;
+import de.nosebrain.widget.cafeteria.parser.CafeteriaParserResult;
 import de.nosebrain.widget.cafeteria.parser.MenuParser;
 import de.nosebrain.widget.cafeteria.service.CafeteriaStore;
 
@@ -40,10 +43,16 @@ public class CafeteriaService {
     }
 
     try {
-      final Cafeteria cafeteria = parser.updateCafeteria(id, week);
+      final CafeteriaParserResult cafeteriaResult = parser.updateCafeteria(id, week);
+      final Cafeteria cafeteria = cafeteriaResult.getCafeteria();
       if (cafeteria != null) {
         // save in database
         this.client.storeCafeteria(key, cafeteria);
+        
+        final String metaData = cafeteriaResult.getMetaData();
+        if (present(metaData)) {
+          this.client.storeMetaData(key, metaData);
+        }
         return cafeteria;
       }
     } catch (final Exception e) {
