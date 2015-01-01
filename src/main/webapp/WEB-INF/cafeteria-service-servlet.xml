@@ -30,15 +30,15 @@
 	
 	<!-- config -->
 	<mvc:annotation-driven>
-	    <mvc:message-converters register-defaults="false">
-	        <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" />
-	    </mvc:message-converters>
+		<mvc:message-converters register-defaults="false">
+			<bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" />
+		</mvc:message-converters>
 	</mvc:annotation-driven>
 	
 	<context:component-scan base-package="de.nosebrain.widget.cafeteria" />
 	
-	<bean id="mainDataSource" class="org.apache.tomcat.dbcp.dbcp.BasicDataSource">
-		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+	<bean id="mainDataSource" class="${database.source.class}">
+		<property name="driverClassName" value="${database.driver}" />
 		<property name="url" value="${database.url}" />
 		<property name="username" value="${database.username}" />
 		<property name="password" value="${database.password}" />
@@ -59,8 +59,8 @@
 	<util:map id="universityInfoMap" key-type="java.lang.String" value-type="de.nosebrain.widget.cafeteria.model.UniversityInfo" />
 
 	<bean id="configurator" class="de.nosebrain.widget.cafeteria.CafeteriaConfigurer">
-	    <property name="properties" ref="properties" />
-	    <property name="configMap" ref="universityInfoMap" />
+		<property name="properties" ref="properties" />
+		<property name="configMap" ref="universityInfoMap" />
 	</bean>	
 	<!-- supported parsers -->
 	<bean id="uni-ks_parser" class="de.nosebrain.widget.cafeteria.parser.KasselParser" />
