@@ -1,4 +1,4 @@
-package de.nosebrain.widget.cafeteria.controller;
+package de.nosebrain.widget.cafeteria.webapp.controller;
 
 import static de.nosebrain.util.ValidationUtils.present;
 
@@ -20,15 +20,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import de.nosebrain.common.exception.ResourceNotFoundException;
-import de.nosebrain.widget.cafeteria.CafeteriaService;
 import de.nosebrain.widget.cafeteria.model.Cafeteria;
 import de.nosebrain.widget.cafeteria.model.config.CafeteriaInfo;
 import de.nosebrain.widget.cafeteria.model.config.UniversityInfo;
+import de.nosebrain.widget.cafeteria.service.CafeteriaService;
+import de.nosebrain.widget.cafeteria.webapp.config.CafeteriaServiceSecurityConfig;
+import de.nosebrain.widget.cafeteria.webapp.model.Status;
 
 @Controller
 public class CafeteriaController {
 
-  private static final SimpleGrantedAuthority ADMIN_ROLE = new SimpleGrantedAuthority("admin");
+  private static final SimpleGrantedAuthority ADMIN_ROLE = new SimpleGrantedAuthority(CafeteriaServiceSecurityConfig.ADMIN_ROLE);
   
   private static final String UNI_PLACEHOLDER = "uni";
   private static final String CAFETERIA_PLACEHOLDER = "id";

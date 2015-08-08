@@ -1,4 +1,4 @@
-package de.nosebrain.widget.cafeteria.controller;
+package de.nosebrain.widget.cafeteria.webapp.model;
 
 public class Status {
 
