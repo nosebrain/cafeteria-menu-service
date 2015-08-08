@@ -1,8 +1,12 @@
 package de.nosebrain.widget.cafeteria.database.mysql.param;
 
+import java.util.Date;
+
 public class CafeteriaParam {
   private String key;
   private String value;
+  
+  private Date lastUpdate;
   
   /**
    * @return the key
@@ -30,5 +34,19 @@ public class CafeteriaParam {
    */
   public void setValue(final String value) {
     this.value = value;
+  }
+
+  /**
+   * @return the lastUpdate
+   */
+  public Date getLastUpdate() {
+    return this.lastUpdate;
+  }
+
+  /**
+   * @param lastUpdate the lastUpdate to set
+   */
+  public void setLastUpdate(final Date lastUpdate) {
+    this.lastUpdate = lastUpdate;
   }
 }
