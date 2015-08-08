@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
@@ -18,6 +19,9 @@ public class Cafeteria {
   private Date weekStart;
   @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd.MM.yyyy", timezone="Europe/Berlin")
   private Date weekEnd;
+  @JsonIgnore
+  private Date lastUpdated;
+  
   private String foodInfo = "";
 
   /**
@@ -92,6 +96,20 @@ public class Cafeteria {
   }
 
   /**
+   * @return the lastUpdated
+   */
+  public Date getLastUpdated() {
+    return this.lastUpdated;
+  }
+
+  /**
+   * @param lastUpdated the lastUpdated to set
+   */
+  public void setLastUpdated(final Date lastUpdated) {
+    this.lastUpdated = lastUpdated;
+  }
+
+  /**
    * @return the foodInfo
    */
   public String getFoodInfo() {
@@ -104,5 +122,69 @@ public class Cafeteria {
    */
   public void setFoodInfo(final String foodInfo) {
     this.foodInfo = foodInfo;
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = (prime * result) + (this.closed ? 1231 : 1237);
+    result = (prime * result) + ((this.days == null) ? 0 : this.days.hashCode());
+    result = (prime * result) + ((this.foodInfo == null) ? 0 : this.foodInfo.hashCode());
+    result = (prime * result) + ((this.weekEnd == null) ? 0 : this.weekEnd.hashCode());
+    result = (prime * result) + ((this.weekStart == null) ? 0 : this.weekStart.hashCode());
+    return result;
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(final Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
+    if (this.getClass() != obj.getClass()) {
+      return false;
+    }
+    final Cafeteria other = (Cafeteria) obj;
+    if (this.closed != other.closed) {
+      return false;
+    }
+    if (this.days == null) {
+      if (other.days != null) {
+        return false;
+      }
+    } else if (!this.days.equals(other.days)) {
+      return false;
+    }
+    if (this.foodInfo == null) {
+      if (other.foodInfo != null) {
+        return false;
+      }
+    } else if (!this.foodInfo.equals(other.foodInfo)) {
+      return false;
+    }
+    if (this.weekEnd == null) {
+      if (other.weekEnd != null) {
+        return false;
+      }
+    } else if (!this.weekEnd.equals(other.weekEnd)) {
+      return false;
+    }
+    if (this.weekStart == null) {
+      if (other.weekStart != null) {
+        return false;
+      }
+    } else if (!this.weekStart.equals(other.weekStart)) {
+      return false;
+    }
+    return true;
   }
 }

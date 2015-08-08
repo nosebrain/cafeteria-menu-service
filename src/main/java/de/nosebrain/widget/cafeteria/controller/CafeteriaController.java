@@ -3,6 +3,7 @@ package de.nosebrain.widget.cafeteria.controller;
 import static de.nosebrain.util.ValidationUtils.present;
 
 import java.util.Calendar;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
@@ -21,7 +22,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import de.nosebrain.common.exception.ResourceNotFoundException;
 import de.nosebrain.widget.cafeteria.CafeteriaService;
 import de.nosebrain.widget.cafeteria.model.Cafeteria;
-import de.nosebrain.widget.cafeteria.model.UniversityInfo;
+import de.nosebrain.widget.cafeteria.model.config.CafeteriaInfo;
+import de.nosebrain.widget.cafeteria.model.config.UniversityInfo;
 
 @Controller
 public class CafeteriaController {
@@ -49,6 +51,7 @@ public class CafeteriaController {
   @RequestMapping(CAFETERIA_MAPPING)
   @ResponseBody
   public Cafeteria getCafeteria(@PathVariable(UNI_PLACEHOLDER) final String uni, @PathVariable(CAFETERIA_PLACEHOLDER) final int cafeteria, @PathVariable(WEEK_PLACEHOLDER) final String yearAndWeek, @RequestParam(value = "force", required = false) boolean force, final Authentication principal) throws ResourceNotFoundException {
+    // check for permission to force complete reload
     if (force) {
       if (!isAdmin(principal)) {
         force = false;
@@ -78,7 +81,20 @@ public class CafeteriaController {
       throw new IllegalArgumentException("invalid year '" + year + "'");
     }
     
-    return this.service.getCafeteria(uni, cafeteria, year, week, force);
+    if (!this.universityInfo.containsKey(uni)) {
+      throw new IllegalArgumentException(uni + " not supported");
+    }
+    
+    final UniversityInfo universityInfo = this.universityInfo.get(uni);
+    final List<CafeteriaInfo> cafeteriaInfos = universityInfo.getCafeterias();
+    
+    if ((cafeteria < 0) || (cafeteria >= cafeteriaInfos.size())) {
+      throw new IllegalArgumentException("unknown cafeteria, id=" + cafeteria);
+    }
+    
+    final CafeteriaInfo cafeteriaInfo = cafeteriaInfos.get(cafeteria);
+    
+    return this.service.getCafeteria(cafeteriaInfo, year, week, force);
   }
 
   private static boolean isAdmin(final Authentication principal) {

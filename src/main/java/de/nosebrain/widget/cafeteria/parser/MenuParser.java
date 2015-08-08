@@ -1,10 +1,8 @@
 package de.nosebrain.widget.cafeteria.parser;
 
-import de.nosebrain.widget.cafeteria.model.UniversityInfo;
+import de.nosebrain.widget.cafeteria.model.config.CafeteriaInfo;
 
 public interface MenuParser {
 
-  public CafeteriaParserResult updateCafeteria(final int id, final int week) throws Exception;
-
-  public void setUniversityInfo(UniversityInfo universityInfo);
+  public CafeteriaParserResult updateCafeteria(CafeteriaInfo cafeteriaInfo, final int week) throws Exception;
 }

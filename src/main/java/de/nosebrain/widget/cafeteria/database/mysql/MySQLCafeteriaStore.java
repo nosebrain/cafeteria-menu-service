@@ -28,12 +28,14 @@ public class MySQLCafeteriaStore implements CafeteriaStore {
   public Cafeteria getCafeteria(final String key) {
     final SqlSession session = this.factory.openSession();
     try {
-      final String cafeteriaAsJson = session.selectOne("getCafeteria", key);
-      if (!present(cafeteriaAsJson)) {
+      final CafeteriaParam cafeteriaResult = session.selectOne("getCafeteria", key);
+      if (!present(cafeteriaResult)) {
         return null;
       }
       try {
-        return this.mapper.readValue(cafeteriaAsJson, Cafeteria.class);
+        final Cafeteria cafeteria = this.mapper.readValue(cafeteriaResult.getValue(), Cafeteria.class);
+        cafeteria.setLastUpdated(cafeteriaResult.getLastUpdate());
+        return cafeteria;
       } catch (final IOException e) {
         throw new RuntimeException(e);
       }

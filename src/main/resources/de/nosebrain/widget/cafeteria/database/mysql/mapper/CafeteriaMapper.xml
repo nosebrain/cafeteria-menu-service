@@ -2,13 +2,19 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="de.nosebrain.widget.cafeteria.CafeteriaMapper">
-	<select id="getCafeteria" resultType="string">
-		SELECT data FROM cafeteria WHERE `key` = #{key}
+
+	<resultMap type="CafeteriaParam" id="cafeteriaResult">
+		<id		column="data"			property="value"			javaType="string" />
+		<result	column="last_update"	property="lastUpdate"		javaType="date"/>
+	</resultMap>
+
+	<select id="getCafeteria" resultMap="cafeteriaResult">
+		SELECT data, last_update FROM cafeteria WHERE `key` = #{key}
 	</select>
 	
 	<insert id="insertCafeteria" parameterType="CafeteriaParam">
-		INSERT INTO cafeteria (`key`, data) VALUES (#{key}, #{value})
-			ON DUPLICATE KEY UPDATE data = #{value}
+		INSERT INTO cafeteria (`key`, data, last_update) VALUES (#{key}, #{value}, CURRENT_TIMESTAMP)
+			ON DUPLICATE KEY UPDATE data = #{value}, last_update = CURRENT_TIMESTAMP
 	</insert>
 	
 	<insert id="insertMetaData" parameterType="CafeteriaParam">

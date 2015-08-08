@@ -10,8 +10,9 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 
-import de.nosebrain.widget.cafeteria.model.CafeteriaInfo;
-import de.nosebrain.widget.cafeteria.model.UniversityInfo;
+import de.nosebrain.widget.cafeteria.model.config.CachePolicy;
+import de.nosebrain.widget.cafeteria.model.config.CafeteriaInfo;
+import de.nosebrain.widget.cafeteria.model.config.UniversityInfo;
 import de.nosebrain.widget.cafeteria.parser.MenuParser;
 
 public class CafeteriaConfigurer implements BeanFactoryPostProcessor {
@@ -42,6 +43,7 @@ public class CafeteriaConfigurer implements BeanFactoryPostProcessor {
         UniversityInfo universityInfo = this.configMap.get(uniKey);
         if (universityInfo == null) {
           universityInfo = new UniversityInfo();
+          universityInfo.setId(uniKey);
           this.configMap.put(uniKey, universityInfo);
         }
         final String value = this.properties.getProperty(key);
@@ -53,6 +55,8 @@ public class CafeteriaConfigurer implements BeanFactoryPostProcessor {
 
           final List<CafeteriaInfo> cafeterias = universityInfo.getCafeterias();
           final CafeteriaInfo cafeteriaInfo = getCafeteriaInfo(cafeterias, index);
+          cafeteriaInfo.setUniversityInfo(universityInfo);
+          cafeteriaInfo.setId(index);
           final String last = parts[3];
           if ("name".equals(last)) {
             cafeteriaInfo.setName(value);
@@ -61,7 +65,11 @@ public class CafeteriaConfigurer implements BeanFactoryPostProcessor {
           if ("disabled".equals(last)) {
             cafeteriaInfo.setDisabled(Boolean.parseBoolean(value));
           }
-
+          
+          if ("cachePolicy".equals(last)) {
+            cafeteriaInfo.setCachePolicy(CachePolicy.valueOf(value.toUpperCase()));
+          }
+          
           if ("url".equals(last)) {
             cafeteriaInfo.setUrl(value);
           }
@@ -74,7 +82,7 @@ public class CafeteriaConfigurer implements BeanFactoryPostProcessor {
       final String key = entry.getKey();
       final MenuParser parser = beanFactory.getBean(key + "_parser", MenuParser.class);
       final UniversityInfo value = entry.getValue();
-      parser.setUniversityInfo(value);
+      value.setParser(parser);
       beanFactory.registerSingleton(key, value);
     }
   }
