@@ -1,4 +1,4 @@
-package de.nosebrain.widget.cafeteria;
+package de.nosebrain.widget.cafeteria.service;
 
 import static de.nosebrain.util.ValidationUtils.present;
 
@@ -16,7 +16,6 @@ import de.nosebrain.widget.cafeteria.model.Cafeteria;
 import de.nosebrain.widget.cafeteria.model.config.CafeteriaInfo;
 import de.nosebrain.widget.cafeteria.parser.CafeteriaParserResult;
 import de.nosebrain.widget.cafeteria.parser.MenuParser;
-import de.nosebrain.widget.cafeteria.service.CafeteriaStore;
 
 /**
  * 
@@ -74,7 +73,7 @@ public class CafeteriaService {
         final Date nowDate = new Date();
         final DateMidnight now = new DateTime(nowDate).toDateMidnight();
         final DateMidnight lastUpdated = new DateTime(storedCafeteria.getLastUpdated()).toDateMidnight();
-        return !now.isAfter(lastUpdated);
+        return !now.isEqual(lastUpdated);
       default:
         break;
     }
