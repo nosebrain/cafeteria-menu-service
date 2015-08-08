@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Controller;
@@ -46,13 +47,13 @@ public class CafeteriaController {
 
   @RequestMapping("/")
   @ResponseBody
-  public Map<String, UniversityInfo> getSupportedSites() {
-    return this.universityInfo;
+  public Object getSupportedSites(@RequestParam(required = false) final String callback) {
+    return handleJsonP(callback, this.universityInfo);
   }
 
   @RequestMapping(CAFETERIA_MAPPING)
   @ResponseBody
-  public Cafeteria getCafeteria(@PathVariable(UNI_PLACEHOLDER) final String uni, @PathVariable(CAFETERIA_PLACEHOLDER) final int cafeteria, @PathVariable(WEEK_PLACEHOLDER) final String yearAndWeek, @RequestParam(value = "force", required = false) boolean force, final Authentication principal) throws ResourceNotFoundException {
+  public Object getCafeteria(@PathVariable(UNI_PLACEHOLDER) final String uni, @PathVariable(CAFETERIA_PLACEHOLDER) final int cafeteriaId, @PathVariable(WEEK_PLACEHOLDER) final String yearAndWeek, @RequestParam(value = "force", required = false) boolean force, @RequestParam(required = false) final String callback, final Authentication principal) throws ResourceNotFoundException {
     // check for permission to force complete reload
     if (force) {
       if (!isAdmin(principal)) {
@@ -90,13 +91,24 @@ public class CafeteriaController {
     final UniversityInfo universityInfo = this.universityInfo.get(uni);
     final List<CafeteriaInfo> cafeteriaInfos = universityInfo.getCafeterias();
     
-    if ((cafeteria < 0) || (cafeteria >= cafeteriaInfos.size())) {
-      throw new IllegalArgumentException("unknown cafeteria, id=" + cafeteria);
+    if ((cafeteriaId < 0) || (cafeteriaId >= cafeteriaInfos.size())) {
+      throw new IllegalArgumentException("unknown cafeteria, id=" + cafeteriaId);
     }
     
-    final CafeteriaInfo cafeteriaInfo = cafeteriaInfos.get(cafeteria);
+    final CafeteriaInfo cafeteriaInfo = cafeteriaInfos.get(cafeteriaId);
     
-    return this.service.getCafeteria(cafeteriaInfo, year, week, force);
+    final Cafeteria cafeteria = this.service.getCafeteria(cafeteriaInfo, year, week, force);
+    
+    return handleJsonP(callback, cafeteria);
+  }
+
+  private static Object handleJsonP(final String callback, final Object object) {
+    if (present(callback)) {
+      final MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(object);
+      mappingJacksonValue.setJsonpFunction(callback);
+      return mappingJacksonValue;
+    }
+    return object;
   }
 
   private static boolean isAdmin(final Authentication principal) {
