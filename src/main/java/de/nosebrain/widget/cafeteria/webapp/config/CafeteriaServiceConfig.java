@@ -1,12 +1,17 @@
 package de.nosebrain.widget.cafeteria.webapp.config;
 
+import java.util.Properties;
+
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.core.env.ConfigurableEnvironment;
+import org.springframework.core.env.EnumerablePropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.core.env.PropertySource;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -17,12 +22,28 @@ import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = { "de.nosebrain.widget.cafeteria" })
-@PropertySource(value = { "classpath:cafeteria-service.properties", "file:${catalina.home}/conf/cafeteria-service/cafeteria-service.properties" }, ignoreResourceNotFound = true)
+@org.springframework.context.annotation.PropertySource(value = { "classpath:cafeteria-service.properties", "file:${catalina.home}/conf/cafeteria-service/cafeteria-service.properties" }, ignoreResourceNotFound = true)
 public class CafeteriaServiceConfig extends WebMvcConfigurerAdapter {
 
   @Override
   public void addResourceHandlers(final ResourceHandlerRegistry registry) {
     registry.addResourceHandler("/admin/assets/**").addResourceLocations("/WEB-INF/assets/");
+  }
+  
+  @Bean(name = { "serviceProperties" })
+  public static Properties getServiceProperties(final Environment environment) {
+    final Properties properties = new Properties();
+    for (final PropertySource<?> propertySource : ((ConfigurableEnvironment) environment).getPropertySources()) {
+      if (propertySource instanceof EnumerablePropertySource<?>) {
+          for (final String key : ((EnumerablePropertySource<?>) propertySource).getPropertyNames()) {
+            final Object value = propertySource.getProperty(key);
+            if ((value != null) && (value instanceof String)) {
+              properties.setProperty(key, (String) value);
+            }
+          }
+      }
+    }
+    return properties;
   }
   
   @Bean
@@ -51,9 +72,9 @@ public class CafeteriaServiceConfig extends WebMvcConfigurerAdapter {
   }
   
   @Bean
-  public static CafeteriaConfigurer configurer(final Environment env) {
+  public static CafeteriaConfigurer configurer(@Qualifier("serviceProperties") final Properties properties) {
     final CafeteriaConfigurer configurer = new CafeteriaConfigurer();
-    configurer.setEnvironment(env);
+    configurer.setProperties(properties);
     return configurer;
   }
   

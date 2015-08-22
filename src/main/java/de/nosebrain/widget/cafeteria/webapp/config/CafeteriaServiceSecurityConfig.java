@@ -3,6 +3,7 @@ package de.nosebrain.widget.cafeteria.webapp.config;
 import java.util.Properties;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -26,14 +27,15 @@ public class CafeteriaServiceSecurityConfig extends WebSecurityConfigurerAdapter
   
   @Override
   protected void configure(final HttpSecurity http) throws Exception {
-    http.authorizeRequests().antMatchers("/admin/**").hasRole(ADMIN_ROLE).anyRequest().permitAll().and()
+    http.authorizeRequests().antMatchers("/admin/**").hasAnyAuthority(ADMIN_ROLE).anyRequest().permitAll().and()
     .httpBasic().realmName("Cafeteria Service");
   }
   
   @Bean
-  protected AuthenticationProvider inMemoryUserDetailsManager(final Properties properties) {
+  protected AuthenticationProvider inMemoryUserDetailsManager(@Qualifier("serviceProperties") final Properties properties) {
     final DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-    authenticationProvider.setUserDetailsService(new InMemoryUserDetailsManager(properties, "auth."));
+    final InMemoryUserDetailsManager userDetailsService = new InMemoryUserDetailsManager(properties, "auth.");
+    authenticationProvider.setUserDetailsService(userDetailsService);
     return authenticationProvider;
   }
 
