@@ -37,7 +37,7 @@ public class CafeteriaController {
   private static final String CAFETERIA_PLACEHOLDER = "id";
   private static final String WEEK_PLACEHOLDER = "week";
   
-  private static final String CAFETERIA_MAPPING = "/{" + UNI_PLACEHOLDER + "}/{" + CAFETERIA_PLACEHOLDER + "}/{" + WEEK_PLACEHOLDER + "}";
+  private static final String CAFETERIA_MAPPING = "/{" + UNI_PLACEHOLDER + "}/{" + CAFETERIA_PLACEHOLDER + ":\\d+}/{" + WEEK_PLACEHOLDER + "}";
 
   @Autowired
   private CafeteriaService service;
@@ -64,6 +64,7 @@ public class CafeteriaController {
     int year;
     if ("CURRENT".equals(yearAndWeek)) {
       final Calendar calendar = Calendar.getInstance();
+      calendar.setFirstDayOfWeek(Calendar.MONDAY);
       year = calendar.get(Calendar.YEAR);
       week = calendar.get(Calendar.WEEK_OF_YEAR);
     } else if (yearAndWeek.contains("_")) {

@@ -8,6 +8,8 @@ public class CafeteriaParam {
   
   private Date lastUpdate;
   
+  private int limit;
+  
   /**
    * @return the key
    */
@@ -48,5 +50,19 @@ public class CafeteriaParam {
    */
   public void setLastUpdate(final Date lastUpdate) {
     this.lastUpdate = lastUpdate;
+  }
+
+  /**
+   * @return the limit
+   */
+  public int getLimit() {
+    return this.limit;
+  }
+
+  /**
+   * @param limit the limit to set
+   */
+  public void setLimit(final int limit) {
+    this.limit = limit;
   }
 }
