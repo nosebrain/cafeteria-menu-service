@@ -13,7 +13,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.apache.ibatis.transaction.TransactionFactory;
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
-import org.apache.tomcat.dbcp.dbcp.BasicDataSource;
+import org.apache.tomcat.dbcp.dbcp2.BasicDataSource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.ClassPathResource;
@@ -21,6 +21,8 @@ import org.springframework.core.io.Resource;
 
 @org.springframework.context.annotation.Configuration
 public class CafeteriaServiceDatabaseConfig {
+  
+  
   
   @Bean
   public static DataSource databaseConnection(@Value("${database.driver}") final String driverClassName,
