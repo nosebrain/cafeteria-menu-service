@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+	<head th:replace="fragments/layout/header" />
+	<body>
+		<nav th:replace="fragments/layout/nav" />
+		
+		<div class="container">
+			<div class="page-header">
+				<h1>Manage Cache</h1>
+			</div>
+			
+			<p>
+				Showing the latest <span th:text="${limit}">10</span> cached cafeterias.
+			</p>
+			
+			<table class="table table-striped table-bordered table-condensed">
+				<tr>
+					<th>University</th>
+					<th>Cafeteria</th>
+					<th>Week</th>
+					<th>Last Updated</th>
+					<th></th>
+				</tr>
+				<tr th:each="cafeteria,iterStat : ${cafeterias}">
+					<td th:text="${cafeteria.cafeteriaInfo.universityInfo.name}">Uni Würzburg</td>
+					<td th:text="${cafeteria.cafeteriaInfo.name}">Frankenstube</td>
+					<td>
+						<span class="startWeek" th:text="${#calendars.format(cafeteria.weekStart,'dd.MM')}" /> - <span class="endWeek" th:text="${#calendars.format(cafeteria.weekEnd,'dd.MM.yyyy')}" />
+					</td>
+					<td th:switch="${cafeteria.lastUpdated}">
+						<span class="noUpdate" th:case="null">-</span>
+						<span class="lastUpdated" th:text="${#calendars.format(cafeteria.lastUpdated,'dd.MM.yyyy HH:mm:ss')}" th:case="*" />
+					</td>
+					<td>
+						<div class="btn-group" role="group">
+							<button type="button" class="btn btn-default btn-xs" data-toggle="modal" th:attr="data-target='#cafeteria_' + ${iterStat.index}">
+								<span class="glyphicon glyphicon-info-sign"></span>
+							</button>
+							<button type="button" class="btn btn-default btn-xs reload-cafeteria" th:attr="data-uni_id=${cafeteria.cafeteriaInfo.universityInfo.id},data-caf_id=${cafeteria.cafeteriaInfo.id},data-week=${#calendars.format(cafeteria.weekStart,'yyyy_w')},data-context=@{/}">
+								<span class="glyphicon glyphicon-refresh"></span>
+							</button>
+						</div>
+						
+						<span class="label label-info hidden">refreshing</span>
+					</td>
+				</tr>
+			</table>
+			
+			<div th:each="cafeteria,iterStat : ${cafeterias}" class="modal fade" th:id="'cafeteria_' + ${iterStat.index}" tabindex="-1" role="dialog" aria-labelledby="addParserLabel">
+					<div class="modal-dialog modal-lg">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+								<h4 class="modal-title" th:id="'cafeteria_' + ${iterStat.index} + 'Label'" th:text="${cafeteria.cafeteriaInfo.name}">Frankenstube</h4>
+							</div>
+							<div class="modal-body" th:switch="${cafeteria.closed}">
+								<div>
+									<span class="startWeek" th:text="${#calendars.format(cafeteria.weekStart,'dd.MM')}" /> - <span class="endWeek" th:text="${#calendars.format(cafeteria.weekEnd,'dd.MM.yyyy')}" />
+								</div>
+								<table class="table" th:case="false">
+									<tr>
+										<th>Mo</th>
+										<th>Tu</th>
+										<th>We</th>
+										<th>Th</th>
+										<th>Fr</th>
+									</tr>
+									<tr>
+										<td th:each="day : ${cafeteria.days}">
+											<ul>
+												<li th:each="menu : ${day.food}" th:text="${menu.description}" />
+											</ul>
+										</td>
+									</tr>
+								</table>
+								
+								<div class="alert alert-info" th:case="true">
+									<strong>closed</strong>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+							</div>
+						</div>
+					</div>
+				</div>
+		</div>
+	</body>
+</html>

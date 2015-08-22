@@ -4,6 +4,9 @@ import static de.nosebrain.util.ValidationUtils.present;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -14,6 +17,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import de.nosebrain.widget.cafeteria.database.mysql.param.CafeteriaParam;
 import de.nosebrain.widget.cafeteria.model.Cafeteria;
+import de.nosebrain.widget.cafeteria.model.config.CafeteriaInfo;
+import de.nosebrain.widget.cafeteria.model.config.UniversityInfo;
 import de.nosebrain.widget.cafeteria.service.CafeteriaStore;
 
 @Component
@@ -21,6 +26,9 @@ public class MySQLCafeteriaStore implements CafeteriaStore {
   
   @Autowired
   private SqlSessionFactory factory;
+  
+  @Autowired
+  private Map<String, UniversityInfo> universityInfo;
 
   private final ObjectMapper mapper = new ObjectMapper();
 
@@ -33,13 +41,49 @@ public class MySQLCafeteriaStore implements CafeteriaStore {
         return null;
       }
       try {
-        final Cafeteria cafeteria = this.mapper.readValue(cafeteriaResult.getValue(), Cafeteria.class);
-        cafeteria.setLastUpdated(cafeteriaResult.getLastUpdate());
-        return cafeteria;
+        return this.convertToCafeteria(cafeteriaResult, false);
       } catch (final IOException e) {
         throw new RuntimeException(e);
       }
     } finally {
+      session.close();
+    }
+  }
+
+  private Cafeteria convertToCafeteria(final CafeteriaParam cafeteriaParam, final boolean includeInfo) throws IOException {
+    final Cafeteria cafeteria = this.mapper.readValue(cafeteriaParam.getValue(), Cafeteria.class);
+    cafeteria.setLastUpdated(cafeteriaParam.getLastUpdate());
+    
+    if (includeInfo) {
+      final String key = cafeteriaParam.getKey();
+      final String[] keyInfo = key.split("_");
+      final String uniKey = keyInfo[0];
+      if (this.universityInfo.containsKey(uniKey)) {
+        final UniversityInfo uniInfo = this.universityInfo.get(uniKey);
+        final int cafId = Integer.parseInt(keyInfo[1]);
+        final CafeteriaInfo cafeteriaInfo = uniInfo.getCafeterias().get(cafId);
+        cafeteria.setCafeteriaInfo(cafeteriaInfo);
+      }
+    }
+    return cafeteria;
+  }
+  
+  @Override
+  public List<Cafeteria> getCafeterias(final int limit) {
+    final SqlSession session = this.factory.openSession();
+    try {
+      final List<CafeteriaParam> cafeteriaParams = session.selectList("getCafeterias", limit);
+      final List<Cafeteria> cafeterias = new LinkedList<Cafeteria>();
+      
+      if (present(cafeteriaParams)) {
+        for (final CafeteriaParam cafeteriaParam : cafeteriaParams) {
+          cafeterias.add(this.convertToCafeteria(cafeteriaParam, true));
+        }
+      }
+      return cafeterias;
+    } catch (final IOException e) {
+      throw new RuntimeException(e);
+    }finally {
       session.close();
     }
   }

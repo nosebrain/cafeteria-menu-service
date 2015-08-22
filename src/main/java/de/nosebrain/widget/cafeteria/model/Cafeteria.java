@@ -9,6 +9,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
+import de.nosebrain.widget.cafeteria.model.config.CafeteriaInfo;
+
 @JsonInclude(Include.NON_EMPTY)
 public class Cafeteria {
 
@@ -23,6 +25,9 @@ public class Cafeteria {
   private Date lastUpdated;
   
   private String foodInfo = "";
+  
+  @JsonIgnore
+  private CafeteriaInfo cafeteriaInfo;
 
   /**
    * @return the closed
@@ -122,6 +127,20 @@ public class Cafeteria {
    */
   public void setFoodInfo(final String foodInfo) {
     this.foodInfo = foodInfo;
+  }
+
+  /**
+   * @return the cafeteriaInfo
+   */
+  public CafeteriaInfo getCafeteriaInfo() {
+    return this.cafeteriaInfo;
+  }
+
+  /**
+   * @param cafeteriaInfo the cafeteriaInfo to set
+   */
+  public void setCafeteriaInfo(final CafeteriaInfo cafeteriaInfo) {
+    this.cafeteriaInfo = cafeteriaInfo;
   }
 
   /* (non-Javadoc)
