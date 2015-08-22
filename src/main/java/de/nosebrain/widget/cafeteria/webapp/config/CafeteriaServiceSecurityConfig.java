@@ -27,7 +27,7 @@ public class CafeteriaServiceSecurityConfig extends WebSecurityConfigurerAdapter
   @Override
   protected void configure(final HttpSecurity http) throws Exception {
     http.authorizeRequests().antMatchers("/admin/**").hasRole(ADMIN_ROLE).anyRequest().permitAll().and()
-    .httpBasic();
+    .httpBasic().realmName("Cafeteria Service");
   }
   
   @Bean
