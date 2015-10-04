@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import de.nosebrain.widget.cafeteria.model.Cafeteria;
@@ -19,6 +20,7 @@ public class KasselParserTest {
   private static final KasselParser PARSER = new KasselParser();
 
   @Test
+  @Ignore // new layout
   public void test34_1() throws Exception {
     final InputStream inputStream = KasselParserTest.class.getClassLoader().getResourceAsStream("kassel/34-1.html");
     final Document document = Jsoup.parse(inputStream, "iso-8859-1", "");
@@ -36,6 +38,7 @@ public class KasselParserTest {
   }
   
   @Test
+  @Ignore // new layout
   public void christmas2012() throws Exception {
     final InputStream inputStream = KasselParserTest.class.getClassLoader().getResourceAsStream("kassel/weihnachten_2012.html");
     final Document document = Jsoup.parse(inputStream, "iso-8859-1", "");
@@ -53,6 +56,7 @@ public class KasselParserTest {
   }
   
   @Test
+  @Ignore // new layout
   public void centralCaf() throws Exception {
     final InputStream inputStream = KasselParserTest.class.getClassLoader().getResourceAsStream("kassel/central_caf.html");
     final Document document = Jsoup.parse(inputStream, "iso-8859-1", "");
@@ -63,5 +67,18 @@ public class KasselParserTest {
     final Day mo = days.get(0);
     final List<Menu> moFood = mo.getFood();
     assertEquals(5, moFood.size());
+  }
+  
+  @Test
+  public void centralCaf2015() throws Exception {
+    final InputStream inputStream = KasselParserTest.class.getClassLoader().getResourceAsStream("kassel/uni-ks-1_201539.html");
+    final Document document = Jsoup.parse(inputStream, "iso-8859-1", "");
+    final Cafeteria cafeteria = PARSER.extractInformations(document, 39);
+    final List<Day> days = cafeteria.getDays();
+    assertEquals(5, days.size());
+    
+    final Day mo = days.get(0);
+    final List<Menu> moFood = mo.getFood();
+    assertEquals(4, moFood.size());
   }
 }
