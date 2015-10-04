@@ -1,0 +1,363 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de" lang="de">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<!-- 
+	(c) PROFORMA Kassel
+	        TYPO3 Umsetzung:
+	        PROFORMA Kassel
+	        Karthäuserstraße 7-9, 34117 Kassel
+	        kontakt(at)proforma-kassel(dot)de
+
+	This website is powered by TYPO3 - inspiring people to share!
+	TYPO3 is a free open source Content Management Framework initially created by Kasper Skaarhoj and licensed under GNU/GPL.
+	TYPO3 is copyright 1998-2015 of Kasper Skaarhoj. Extensions are copyright of their respective owners.
+	Information and contribution at http://typo3.org/
+-->
+
+<base href="http://www.studentenwerk-kassel.de/" />
+<link rel="shortcut icon" href="http://www.studentenwerk-kassel.de/fileadmin/studentenwerk/favicon.ico" type="image/x-icon; charset=binary" />
+<link rel="icon" href="http://www.studentenwerk-kassel.de/fileadmin/studentenwerk/favicon.ico" type="image/x-icon; charset=binary" />
+
+<meta name="generator" content="TYPO3 CMS 6.2" />
+
+
+<link rel="stylesheet" type="text/css" href="typo3temp/stylesheet_9acb3b6aa7.css?1436850223" media="all" />
+<link rel="stylesheet" type="text/css" href="typo3conf/ext/stw_mensa/res/css/base.css?1408522278" media="screen" />
+
+
+
+
+
+
+
+
+    <style type="text/css">
+body {
+font-family: Arial, Verdana, Helvetica, sans-serif;
+font-size:0.8em;}
+td,tr {
+font-family: Arial, Verdana, Helvetica, sans-serif;
+}
+
+.top
+{
+vertical-align: top;
+}
+
+.important
+{
+color: #d72000;
+}
+.detail
+{
+color: #2d8829;
+}
+.name-of-person
+{
+color: #0000ff;
+}
+#spezial{
+position: absolute;
+top: 20px;
+left: 320px;
+font-family: Arial, Verdana, Helvetica, sans-serif;
+text-align: center;
+vertical-align: bottom;
+width:400px;
+height:80px;
+font-size: 30px;
+}
+#spezial img{
+margin-top:0px;
+}
+
+.menu_head{min-width: 140px;}
+.day_head{min-width: 170px;}
+td.speiseplantitel{
+font-family: Arial, Verdana, Helvetica,  sans-serif;
+
+width:350px;
+vertical-align: top;
+font-weight: bolder;
+font-size: 2em;
+}
+td.speiseplanlogo{
+text-align: right;
+vertical-align: top;
+padding-top:10px;
+}
+td.speiseklein{
+font-size: .85em;
+font-family: Arial, Verdana, Helvetica, sans-serif;
+}
+div.speiseplanlogo_ohne{
+position:absolute;
+left: 777px;
+top: 22px;
+z-index: 1;
+}
+h1{margin-top:0px;
+margin-bottom:0px;
+font-weight: bolder;
+font-size: 1.3em;
+}
+
+.gelb{
+border-top:1px #666 solid;
+border-left:1px #666 solid;
+border-right:1px #666 solid;
+border-bottom:0px #666 solid;
+}
+.weiss{
+border-top:1px #666 solid;
+border-left:0px #666 solid;
+border-right:1px #666 solid;
+border-bottom:0px #666 solid;
+}
+.preisgelb{
+border-left:1px #666 solid;
+border-right:1px #666 solid;
+}
+.preis{
+border-left:0px #666 solid;
+border-right:1px #666 solid;
+}
+.gelbunten{
+border-top:1px #666 solid;
+border-left:1px #666 solid;
+border-right:1px #666 solid;
+border-bottom:1px #666 solid;
+}
+*|*:-moz-any-link:not(svg|a) {
+    text-decoration: underline;
+}
+*|*:link,
+*|*:visited
+ {
+    color: #000;
+}
+:-moz-any-link {
+    cursor: pointer;
+}
+
+.weiss.gruen {color:#2D8829;}
+.weiss.blau {color:#1D1DC7;}
+.weiss.rot {color:#D72000;}
+.weiss.bio{
+background:none;
+}
+
+.items_row .vegan,.items_row .fleischlos,
+.items_row.vegan,.items_row.fleischlos
+{
+background:#none;
+color:#466301;
+
+}
+
+.preis.gruen {color:#000;}
+.preis.blau {color:#000;}
+.preis.rot {color:#000;}
+
+ .price_row { height1: 34px;}
+
+.price_row .bio{
+background-image:URL(http://www.studentenwerk-kassel.de/bio_klein.jpg);
+background-position:120px 0px;
+background-position:3px 0px;
+background-repeat:no-repeat;
+padding: 10px 0 5px 35px;
+} 
+.price_row .mensavital{
+background-image:URL(http://www.studentenwerk-kassel.de/mv_logo.png);
+background-position:120px 0px;
+background-position:3px 0px;
+background-repeat:no-repeat;
+padding: 10px 0 5px 35px;
+} 
+
+ 
+
+.kwhinweistext{ 
+text-align: center !important; 
+vertical-align:middle !important; 
+padding:0 80px 0 0 !important;
+}
+ .red  { color:#A01C1F; }
+ .orange  { color:#FF5600; }
+ .blue  { color:#266B83; }
+ .green{ color:#719455; }
+ .pink  { color:#CB1680; }
+ .lila  { color:#8B24BE; }
+ 
+ 
+h4{padding:0;margin:0;}  
+   
+.tx-stwmensa-pi1 table{
+    border:0px solid #666666;
+border-bottom:1px solid #666666;
+ border-collapse: collapse;
+width:899px;
+}
+
+.tx-stwmensa-pi1 table td{
+border-color: #666666;
+    border-style: solid;
+    border-width: 1px  1px 0;
+    padding:5px;    
+}
+.menu_head,.gelb{
+width:125px;
+font-size:1em;
+font-weight:bold;
+background-color:#fadc00;
+}
+
+.price_info,.klein,.zsnamen,.menu_content{
+font-size:0.85em;
+font-weight:normal;
+}
+
+.tx-stwmensa-pi1 table .day_head{
+background-color:#c0c0c0;
+}
+
+.tx-stwmensa-pi1 table tr.thead td{
+border:none;
+
+
+vertical-align:bottom;
+}
+
+.tx-stwmensa-pi1 table tr.thead{
+
+}
+
+
+
+.tx-stwmensa-pi1 table .price_row td{
+  border-width: 0px 1px 0; vertical-align: bottom;
+}
+
+.tx-stwmensa-pi1 table tr.thead td,
+ .tx-stwmensa-pi1 table tr.thead {
+    border: medium none;
+    height: 40px;
+    vertical-align: bottom;
+}
+
+
+    
+  </style> <title>Zentralmensa Arnold-Bode-Straße- Studentenwerk Kassel - Service rund ums Studium</title><meta name="google-translate-customization" content="59396ce25a131fd9-cb431002fa647d5a-g5b14587642c9464c-1b"></meta>
+
+
+</head>
+<body id="essen">
+
+<!--content--> <div id="c3217" class="csc-default"><div class="tx-stwmensa-pi1">
+		
+
+
+      <!--   <h4>Speiseplan vom 21.09. bis 25.09.2015</h4> Zentralmensa-->
+    <div class="mainmensa">
+<table>
+<tr class="thead">
+    <td  colspan="2"><h1 class="notranslate">Zentralmensa<img src="" width="" height=""   alt=""  border="0" /></h1>  <br />  
+	<h4>Speiseplan vom 21.09. bis 25.09.2015</h4> </td>
+
+        <td  colspan="3" class="kwhinweistext"></td>
+
+<td >
+<img border="0" style="margin:0 0 5px 0;" title="" alt="" src="http://www.studentenwerk-kassel.de/fileadmin/studentenwerk/logomensa.png">
+</td>
+</tr>   
+
+
+<tr><td class="menu_head">Woche: 39</td><td class="day_head">Montag</td><td class="day_head">Dienstag</td>
+<td class="day_head">Mittwoch</td><td class="day_head">Donnerstag</td><td class="day_head">Freitag</td></tr>
+
+    
+
+                                <tr class="items_row"><td class="menu_head">Essen 1</td><td class="menu_content top  vegan" title=" ">Kichererbsen-Linsenpfanne mit Koriander, Ananas und Papaya     <br/><span class="zsnamen">(V, )</span></td><td class="menu_content top  vegan" title=" 35=Soja, 40=Sesam">Hausgemachter Stampf von zweierlei Kartoffeln an Hummus    <br/><span class="zsnamen">(V, 35, 40)</span></td><td class="menu_content top  vegan" title=" 30=glutenhaltiges Getreide">Boccolotti mit tomatisierten Grünkernragout    <br/><span class="zsnamen">(V, 30)</span></td><td class="menu_content top  vegan" title=" 30=glutenhaltiges Getreide, 35=Soja">Sojafrikassee mit Erbsen, Spargel und Champignons     <br/><span class="zsnamen">(V, 30, 35)</span></td><td class="menu_content top  fleischlos" title=" 30=glutenhaltiges Getreide, 36=Milch/Milchzucker (Laktose)">Lauchkuchen mit Schmand und roten Zwiebeln     <br/><span class="zsnamen">(F, 30, 36)</span></td></tr><tr class="price_row"><td class="menu_head"><span class="price_info">Preis Stud./Bed./Gast </span></td><td class="menu_content klein  vegan">1,70/3,00/3,80€</td><td class="menu_content klein  vegan">1,80/3,10/3,90€</td><td class="menu_content klein  vegan">1,80/3,10/3,90€</td><td class="menu_content klein  vegan">1,80/3,10/3,90€</td><td class="menu_content klein  fleischlos">1,80/3,10/3,90€</td></tr>
+                                <tr class="items_row"><td class="menu_head">Essen 2</td><td class="menu_content top " title=" 2=mit Konservierungsstoff, 30=glutenhaltiges Getreide, S=Schweinefleisch bzw. Schweinefleisch-Anteile">Nürnberger Rostbratwurst mit hausgemachtem Bayrisch Kraut    <br/><span class="zsnamen">( 2, 30, S)</span></td><td class="menu_content top " title=" 6=geschwärzt, 30=glutenhaltiges Getreide, 32=Eier, 35=Soja, 36=Milch/Milchzucker (Laktose), 39=Senf, S=Schweinefleisch bzw. Schweinefleisch-Anteile">Griechisches Hacksteak auf Knoblauch-Olivensauce    <br/><span class="zsnamen">( 6, 30, 32, 35, 36, 39, S)</span></td><td class="menu_content top " title=" ">Mediterrane Gemüsepfanne mit Streifen von der Hähnchenbrust     <br/><span class="zsnamen">( )</span></td><td class="menu_content top " title=" 1=mit Farbstoff, 30=glutenhaltiges Getreide, 40=Sesam">Sloppy Joe - Burger mit Geflügel-Hackfleischsauce     <br/><span class="zsnamen">( 1, 30, 40)</span></td><td class="menu_content top " title=" 2=mit Konservierungsstoff, S=Schweinefleisch bzw. Schweinefleisch-Anteile">Serbische Bohnensuppe mit weißen Bohnen, Paprika und Speck     <br/><span class="zsnamen">( 2, S)</span></td></tr><tr class="price_row"><td class="menu_head"><span class="price_info">Preis Stud./Bed./Gast </span></td><td class="menu_content klein ">2,30/3,60/4,40€</td><td class="menu_content klein ">2,30/3,60/4,40€</td><td class="menu_content klein ">2,30/3,60/4,40€</td><td class="menu_content klein ">2,30/3,60/4,40€</td><td class="menu_content klein ">2,20/3,50/4,30€</td></tr>
+                                <tr class="items_row"><td class="menu_head">Essen 3 oder 4</td><td class="menu_content top " title=" "></td><td class="menu_content top " title=" "></td><td class="menu_content top " title=" "></td><td class="menu_content top  fleischlos" title=" 30=glutenhaltiges Getreide, 32=Eier, 36=Milch/Milchzucker (Laktose)">Gebackene Zucchinipuffer mit Sauerrahmdip    <br/><span class="zsnamen">(F, 30, 32, 36)</span></td><td class="menu_content top " title=" 36=Milch/Milchzucker (Laktose)">Geschwenkte Putenstreifen Gyros Art mit einem Knoblauchdip    <br/><span class="zsnamen">( 36)</span></td></tr><tr class="price_row"><td class="menu_head"><span class="price_info">Preis Stud./Bed./Gast </span></td><td class="menu_content klein "></td><td class="menu_content klein "></td><td class="menu_content klein "></td><td class="menu_content klein  fleischlos">3,00/4,30/5,10€</td><td class="menu_content klein ">3,60/4,90/5,70€</td></tr>
+                                <tr class="items_row"><td class="menu_head">Angebot des Tages</td><td class="menu_content top " title=" 30=glutenhaltiges Getreide, 33=Fisch, 36=Milch/Milchzucker (Laktose), 38=Sellerie, 41=Sulfit / Schwefeldioxid">Gebratenes Rotbarschfilet im Reismehlmantel auf buntem Gartengemüse und cremiger Dillsauce, dazu Salzkartoffeln   <br/><span class="zsnamen">(A, 30, 33, 36, 38, 41)</span></td><td class="menu_content top " title=" 30=glutenhaltiges Getreide, 32=Eier, 35=Soja, 36=Milch/Milchzucker (Laktose)">Hähnchenbrust mit fruchtiger Brombeerjus und Mandel-Kroketten   <br/><span class="zsnamen">( 30, 32, 35, 36)</span></td><td class="menu_content top " title=" 30=glutenhaltiges Getreide, 36=Milch/Milchzucker (Laktose), 38=Sellerie, R=Rindfleisch bzw. Rindfleisch-Anteile">Tellerfleisch vom Rind an Béchamelsauce, Blumenkohl-Gemüse und hausgemachtem Kartoffelstampf  <br/><span class="zsnamen">( 30, 36, 38, R)</span></td><td class="menu_content top " title=" 30=glutenhaltiges Getreide, 32=Eier, 36=Milch/Milchzucker (Laktose), S=Schweinefleisch bzw. Schweinefleisch-Anteile">Paniertes Schweineschnitzel an Käsecreme-Sauce und Berner Riesenrösti   <br/><span class="zsnamen">( 30, 32, 36, S)</span></td><td class="menu_content top  vegan mensavital" title=" 2=mit Konservierungsstoff, 30=glutenhaltiges Getreide, 35=Soja, 38=Sellerie">Linsenbratling mit Curryrahmwirsing und Kräuterkartoffeln     <br/><span class="zsnamen">(V,mv, 2, 30, 35, 38)<br>Kcal:626, E:25.0 g, K:79.0 g, Fe:13.0 g</span></td></tr><tr class="price_row"><td class="menu_head"><span class="price_info">Preis Stud./Bed./Gast </span></td><td class="menu_content klein ">3,70/5,00/5,80€</td><td class="menu_content klein ">3,00/4,30/5,10€</td><td class="menu_content klein ">4,50/5,80/6,60€</td><td class="menu_content klein ">3,50/4,80/5,60€</td><td class="menu_content klein  vegan mensavital">2,50/3,80/4,60€</td></tr>
+                                <tr class="items_row"><td class="menu_head">Wok/Grill</td><td class="menu_content top  fleischlos mensavital" title=" 30=glutenhaltiges Getreide, 32=Eier, 36=Milch/Milchzucker (Laktose)">Schupfnudel-Kürbis-Champignon-Pfanne mit Hirtenkäse-Quarkdip     <br/><span class="zsnamen">(F,mv, 30, 32, 36)<br>Kcal:683, E:27.0 g, K:87.0 g, Fe:23.0 g</span></td><td class="menu_content top " title=" "></td><td class="menu_content top  mensavital" title=" 30=glutenhaltiges Getreide, 32=Eier, 33=Fisch, 36=Milch/Milchzucker (Laktose), 41=Sulfit / Schwefeldioxid">Seehechtfilet auf Schwarzwurzel-Möhren-Ragout mit Pasta     <br/><span class="zsnamen">(A,mv, 30, 32, 33, 36, 41)<br>Kcal:744, E:45.0 g, K:94.0 g, Fe:25.0 g</span></td><td class="menu_content top " title=" "></td><td class="menu_content top " title=" "></td></tr><tr class="price_row"><td class="menu_head"><span class="price_info">Preis Stud./Bed./Gast </span></td><td class="menu_content klein  fleischlos mensavital">3,00/4,30/5,10€</td><td class="menu_content klein "></td><td class="menu_content klein  mensavital">3,50/4,80/5,60€</td><td class="menu_content klein "></td><td class="menu_content klein "></td></tr>
+                                <tr class="items_row"><td class="menu_head">Pizza/Pasta</td><td class="menu_content top " title=" "></td><td class="menu_content top  fleischlos" title=" 30=glutenhaltiges Getreide, 36=Milch/Milchzucker (Laktose), 37=Schalenfrüchte (Nüsse), 38=Sellerie">Flammkuchen mit Lauch, Walnüssen, Ziegenkäse und Honig     <br/><span class="zsnamen">(F, 30, 36, 37, 38)</span></td><td class="menu_content top " title=" "></td><td class="menu_content top " title=" "></td><td class="menu_content top " title=" "></td></tr><tr class="price_row"><td class="menu_head"><span class="price_info">Preis Stud./Bed./Gast </span></td><td class="menu_content klein "></td><td class="menu_content klein  fleischlos">3,20/4,50/5,30€</td><td class="menu_content klein "></td><td class="menu_content klein "></td><td class="menu_content klein "></td></tr>
+<tr class="">
+<td class="menu_head">Salatbar&nbsp;</td>
+<td colspan="5" class="info klein">
+An der Salatbar knackige Salate zum Selbstmischen oder fertig angerichtet (Preis pro 100g Salat: 0,80€/1,00€/1,30€ für Stud./Bed./Gast).</td>
+</tr>
+
+	
+	
+<tr class="klein">
+<td class="menu_head">&nbsp;</td>
+<td colspan="5" class="info">
+
+Die Essen 1-4 bestehen aus einer Hauptkomponente und 2 Beilagen nach Wahl und können durch weitere Beilagen zum Preis von 
+<strong>0,70 €</strong> ergänzt werden.&nbsp;</td>
+</tr>
+<tr class="klein">
+
+<td colspan="3" class="info" style="vertical-align:top" >
+<img bio="" alt="logo:feedback" title="logo:feedback" style="float:left;"src="http://www.studentenwerk-kassel.de/fileadmin/studentenwerk/feedback.png">
+Sagen Sie uns Ihre Meinung: Online über
+<a title="Feedback" href="feedback">
+www.studentenwerk-kassel.de/feedback</a> <br>
+oder nutzen Sie einen der Meinungskästen,
+die es in jeder Mensa und jeder Cafeteria gibt.<br><br>
+<img bio="" alt="logo:mensaVital" title="logo:mensaVital" style="float:left;"src="http://www.studentenwerk-kassel.de/mv_logo.png">
+Erfahren Sie mehr über <strong>mensaVital</strong> unter:<br>
+<a title="mensaVital" href="http://www.studentenwerk-kassel.de/mensavital.html">www.studentenwerk-kassel.de/mensavital.html</a>
+
+</td>
+<td width="150px" align="center" border="1" colspan="3" class="weiss" style="vertical-align:top">
+
+<div style="vertical-align:top; float:left;">
+<img  alt="logo:QR-Code Kennzeichnung" title="logo:QR-Code Kennzeichnung" src="http://www.studentenwerk-kassel.de/fileadmin/studentenwerk/qrkennzeichnung.png"></div>
+<div style="margin-left: 100px; text-align: left; vertical-align: middle;">Alle Angaben zu den Inhaltsstoffen der verwendeten Lebensmittel wurden sorgfältig zusammengestellt. 
+Das Studentenwerk Kassel haftet jedoch nicht für deren Vollständigkeit. Mehr Informationen, insbesondere für Gäste mit 
+Allergien und gesundheitlichen Beeinträchtigungen, auf <br>
+<a title="Kennzeichnung" href="http://www.studentenwerk-kassel.de/kennzeichnung.html">www.studentenwerk-kassel.de/kennzeichnung.html</a>.</div></td>
+</tr>
+
+  <tr  class="klein"><td   colspan="6">(1) Farbstoff, (2) Konservierungsstoff, (3) Antioxidationsmittel, (4) Geschmacksverstärker, (5) geschwefelt, (6) geschwärzt, (7) gewachst, 
+  (8) Phosphat, (9) Süßungsmitteln, (9a) mit einer Zuckerart und Süßungsmitteln, (10) enthält eine Phenylalaninquelle, (30) glutenhaltiges Getreide, (31) Krebstiere, (32) Eier, 
+  (33) Fisch, (34) Erdnüsse, (35) Sojabohnen, (36) Milch, (37) Schalenfrüchte, (38) Sellerie, (39) Senf, (40) Sesamsamen, (41) Schwefeldioxid und Sulfite, (42) Lupinen, 
+  (43) Weichtiere, (F) fleischlos, (mv) mensaVital, (V) vegan, (Ö) ökologisch, DE-ÖKO-034, (S) Schweinefleisch bzw. Schweinefl.-Anteile, (R) Rindfleisch bzw. Rindfl.-Anteile, (A) Alkohol, 
+  (G) Gelatine, (Kcal) Kilokalorien, (E) Eiweiß, (K) Kohlenhydrate, (Fe) Fett. <br>Bei den Nährwertangaben handelt es sich um Durchschnittswerte, die je Portion geringfügig abweichen können. Wir verwenden ausschl. jodiertes Speisesalz.
+Änderungen vorbehalten. Wir wünschen guten Appetit.
+  </td></tr>
+
+	
+	
+	
+
+  
+  
+  
+  
+ <tr>
+ <td   colspan="6" class="gelb"> Öffnungszeiten Mo. – Fr. 11.15 – 14.30 Uhr (lehrveranstaltungsfreie Zeit 11.30 – 14.15 Uhr)</td></tr>
+</table>
+     </div>  
+
+	</div>
+	</div><div id="c3116" class="csc-default"><p class="bodytext"><a href="newsletter/nl-zentralmensa/newsletter-zentralmensa/" class="internal-link">Diese Seite als Newsletter abonnieren</a></p></div><div id="c3300" class="csc-default"><div id="google_translate_element"></div><script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({pageLanguage: 'de', includedLanguages: 'en', layout: google.translate.TranslateElement.InlineLayout.HORIZONTAL, autoDisplay: false}, 'google_translate_element');
+}
+</script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+        </div><!--content end-->
+
+
+
+
+</body>
+</html>

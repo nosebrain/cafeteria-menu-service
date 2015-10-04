@@ -9,6 +9,7 @@ import java.util.Properties;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
+import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 
 import de.nosebrain.widget.cafeteria.model.config.CachePolicy;
 import de.nosebrain.widget.cafeteria.model.config.CafeteriaInfo;
@@ -39,8 +40,7 @@ public class CafeteriaConfigurer implements BeanFactoryPostProcessor {
   private Properties properties;
 
   @Override
-  public void postProcessBeanFactory(
-      final ConfigurableListableBeanFactory beanFactory) throws BeansException {
+  public void postProcessBeanFactory(final ConfigurableListableBeanFactory beanFactory) throws BeansException {
     final Map<String, UniversityInfo> configMap = new HashMap<String, UniversityInfo>();
     for (final Object key0 : this.properties.keySet()) {
       if (key0 instanceof String) {
@@ -55,17 +55,15 @@ public class CafeteriaConfigurer implements BeanFactoryPostProcessor {
             universityInfo.setId(uniKey);
             configMap.put(uniKey, universityInfo);
           }
-          final String value = this.properties.getProperty(key);
+          final String value = beanFactory.resolveEmbeddedValue(PropertyPlaceholderConfigurer.DEFAULT_PLACEHOLDER_PREFIX + key + PropertyPlaceholderConfigurer.DEFAULT_PLACEHOLDER_SUFFIX);
           if (parts.length == 3) {
             // TODO: color for widget
             universityInfo.setName(value);
           } else if (parts.length == 4) {
             final int index = Integer.parseInt(parts[2]);
 
-            final List<CafeteriaInfo> cafeterias = universityInfo
-                .getCafeterias();
-            final CafeteriaInfo cafeteriaInfo = getCafeteriaInfo(cafeterias,
-                index);
+            final List<CafeteriaInfo> cafeterias = universityInfo.getCafeterias();
+            final CafeteriaInfo cafeteriaInfo = getCafeteriaInfo(cafeterias, index);
             cafeteriaInfo.setUniversityInfo(universityInfo);
             cafeteriaInfo.setId(index);
             final String last = parts[3];

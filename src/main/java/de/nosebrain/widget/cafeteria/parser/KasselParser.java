@@ -1,6 +1,5 @@
 package de.nosebrain.widget.cafeteria.parser;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -22,7 +21,7 @@ import de.nosebrain.widget.cafeteria.model.Menu;
 public class KasselParser extends AbstractMenuParser {
   private static final Pattern DATE_PATTERN = Pattern.compile("[0-9]{1,2}\\.[0-9]{1,2}\\.");
   private static final Pattern YEAR_PATTERN = Pattern.compile("[0-9]{4}\\s*");
-  private static final DateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
+  private static final String DATE_FORMAT = "dd.MM.yyyy";
 
   @Override
   protected Cafeteria extractInformations(final Document document, final int week) throws Exception {
@@ -30,7 +29,7 @@ public class KasselParser extends AbstractMenuParser {
      * before parsing the file check if the requested week equals week in file
      */
     final Elements select = document.select("table tr");
-    final String weekString = select.get(1).select("td").get(0).text();
+    final String weekString = document.select("h4").text();
     final Matcher matcher = DATE_PATTERN.matcher(weekString);
     matcher.find();
 
@@ -38,7 +37,7 @@ public class KasselParser extends AbstractMenuParser {
     yearMatcher.find();
 
     final String mondayDate = matcher.group(0) + yearMatcher.group(0);
-    final Date date = DATE_FORMAT.parse(mondayDate);
+    final Date date = new SimpleDateFormat(DATE_FORMAT).parse(mondayDate);
     final Calendar mondayCalendar = Calendar.getInstance();
     mondayCalendar.setTime(date);
     final int weekOfSource = mondayCalendar.get(Calendar.WEEK_OF_YEAR);
@@ -51,7 +50,8 @@ public class KasselParser extends AbstractMenuParser {
       cafeteria.addDay(new Day());
     }
     
-    int pos = 3;
+    // loop through all trs till you only find two tds (e.g. Salatbar)
+    int pos = 2;
     while (true) {
       final Element tr = select.get(pos);
       final Elements tds = tr.select("td");
