@@ -4,6 +4,7 @@ import static de.nosebrain.util.ValidationUtils.present;
 
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
@@ -63,7 +64,7 @@ public class CafeteriaController {
     final int week;
     int year;
     if ("CURRENT".equals(yearAndWeek)) {
-      final Calendar calendar = Calendar.getInstance();
+      final Calendar calendar = Calendar.getInstance(Locale.GERMANY); // XXX: change locale depending on cafeteria
       calendar.setFirstDayOfWeek(Calendar.MONDAY);
       year = calendar.get(Calendar.YEAR);
       week = calendar.get(Calendar.WEEK_OF_YEAR);
