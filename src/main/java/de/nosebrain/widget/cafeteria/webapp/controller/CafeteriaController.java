@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Controller;
@@ -48,13 +47,13 @@ public class CafeteriaController {
 
   @RequestMapping("/")
   @ResponseBody
-  public Object getSupportedSites(@RequestParam(required = false) final String callback) {
-    return handleJsonP(callback, this.universityInfo);
+  public Map<String, UniversityInfo> getSupportedSites() {
+    return this.universityInfo;
   }
 
   @RequestMapping(CAFETERIA_MAPPING)
   @ResponseBody
-  public Object getCafeteria(@PathVariable(UNI_PLACEHOLDER) final String uni, @PathVariable(CAFETERIA_PLACEHOLDER) final int cafeteriaId, @PathVariable(WEEK_PLACEHOLDER) final String yearAndWeek, @RequestParam(value = "force", required = false) boolean force, @RequestParam(required = false) final String callback, final Authentication principal) throws ResourceNotFoundException {
+  public Cafeteria getCafeteria(@PathVariable(UNI_PLACEHOLDER) final String uni, @PathVariable(CAFETERIA_PLACEHOLDER) final int cafeteriaId, @PathVariable(WEEK_PLACEHOLDER) final String yearAndWeek, @RequestParam(value = "force", required = false) boolean force, final Authentication principal) throws ResourceNotFoundException {
     // check for permission to force complete reload
     if (force) {
       if (!isAdmin(principal)) {
@@ -105,16 +104,7 @@ public class CafeteriaController {
     
     final Cafeteria cafeteria = this.service.getCafeteria(cafeteriaInfo, year, week, force);
     
-    return handleJsonP(callback, cafeteria);
-  }
-
-  private static Object handleJsonP(final String callback, final Object object) {
-    if (present(callback)) {
-      final MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(object);
-      mappingJacksonValue.setJsonpFunction(callback);
-      return mappingJacksonValue;
-    }
-    return object;
+    return cafeteria;
   }
 
   private static boolean isAdmin(final Authentication principal) {
