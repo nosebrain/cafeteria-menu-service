@@ -57,8 +57,9 @@ public class CafeteriaConfigurer implements BeanFactoryPostProcessor {
           }
           final String value = beanFactory.resolveEmbeddedValue(PropertyPlaceholderConfigurer.DEFAULT_PLACEHOLDER_PREFIX + key + PropertyPlaceholderConfigurer.DEFAULT_PLACEHOLDER_SUFFIX);
           if (parts.length == 3) {
-            // TODO: color for widget
-            universityInfo.setName(value);
+            if ("name".equals(parts[2])) {
+              universityInfo.setName(value);
+            }
           } else if (parts.length == 4) {
             final int index = Integer.parseInt(parts[2]);
 

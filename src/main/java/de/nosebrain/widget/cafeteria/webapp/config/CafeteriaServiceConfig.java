@@ -25,12 +25,14 @@ import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 @org.springframework.context.annotation.PropertySource(value = { "classpath:cafeteria-service.properties", "file:${catalina.home}/conf/cafeteria-service/cafeteria-service.properties" }, ignoreResourceNotFound = true)
 public class CafeteriaServiceConfig extends WebMvcConfigurerAdapter {
 
+  private static final String SERVICE_PROPERTIES = "serviceProperties";
+
   @Override
   public void addResourceHandlers(final ResourceHandlerRegistry registry) {
     registry.addResourceHandler("/admin/assets/**").addResourceLocations("/WEB-INF/assets/");
   }
   
-  @Bean(name = { "serviceProperties" })
+  @Bean(name = { SERVICE_PROPERTIES })
   public static Properties getServiceProperties(final Environment environment) {
     final Properties properties = new Properties();
     for (final PropertySource<?> propertySource : ((ConfigurableEnvironment) environment).getPropertySources()) {
@@ -72,7 +74,7 @@ public class CafeteriaServiceConfig extends WebMvcConfigurerAdapter {
   }
   
   @Bean
-  public static CafeteriaConfigurer configurer(@Qualifier("serviceProperties") final Properties properties) {
+  public static CafeteriaConfigurer configurer(@Qualifier(SERVICE_PROPERTIES) final Properties properties) {
     final CafeteriaConfigurer configurer = new CafeteriaConfigurer();
     configurer.setProperties(properties);
     return configurer;
