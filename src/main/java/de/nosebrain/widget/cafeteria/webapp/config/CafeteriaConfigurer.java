@@ -1,10 +1,10 @@
 package de.nosebrain.widget.cafeteria.webapp.config;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
+import java.util.TreeMap;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
@@ -41,7 +41,7 @@ public class CafeteriaConfigurer implements BeanFactoryPostProcessor {
 
   @Override
   public void postProcessBeanFactory(final ConfigurableListableBeanFactory beanFactory) throws BeansException {
-    final Map<String, UniversityInfo> configMap = new HashMap<String, UniversityInfo>();
+    final Map<String, UniversityInfo> configMap = new TreeMap<>();
     for (final Object key0 : this.properties.keySet()) {
       if (key0 instanceof String) {
         final String key = (String) key0;
