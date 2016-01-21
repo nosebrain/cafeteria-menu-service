@@ -9,7 +9,7 @@ import de.nosebrain.widget.cafeteria.parser.WuerzburgParser;
 @Configuration
 public class CafeteriaServiceParserConfig {
   
-  @Bean(name = { "uni-wue_parser", "uni-bam_parser"})
+  @Bean(name = { "uni-wue_parser", "uni-bam_parser", "hs-asch_parser", "hs-wue-schw_parser"})
   public WuerzburgParser wuerzburgParser() {
     return new WuerzburgParser();
   }
