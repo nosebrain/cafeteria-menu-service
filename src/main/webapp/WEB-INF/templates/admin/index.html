@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+	<head th:replace="fragments/layout/header" />
+	<body>
+		<nav th:replace="fragments/layout/nav" />
+		
+		<div class="container">
+			<div class="page-header">
+				<h1>Overview</h1>
+			</div>
+			
+			<a th:href="@{/admin/cache}" class="btn btn-primary">Manage Cache</a>
+			
+			<div th:each="keyvalue : ${infos}" th:with="uni=${keyvalue.value}">
+				<h2 th:text="${uni.name}"/>
+				<ul>
+					<li th:each="cafeteria : ${uni.cafeterias}">
+						<a th:href="${cafeteria.url}" th:text="${cafeteria.name}" />
+						<span class="label label-default" th:text="${cafeteria.cachePolicy}" />
+						<span class="id" th:text="${cafeteria.id}"></span>
+						<span th:if="${cafeteria.disabled}" class="label label-danger">disabled</span>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</body>
+</html>
