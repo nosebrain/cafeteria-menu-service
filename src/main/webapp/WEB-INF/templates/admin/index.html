@@ -68,7 +68,14 @@
 									<tr>
 										<td th:each="day : ${cafeteria.days}">
 											<ul>
-												<li th:each="menu : ${day.food}" th:text="${menu.description}" />
+												<li th:each="menu : ${day.food}" >
+													<span th:text="${menu.description}" />
+													<small>
+														<ul>
+															<li th:each="ingredient : ${menu.ingredients}" th:text="${ingredient}" />
+														</ul>
+													</small>
+												</li>
 											</ul>
 										</td>
 									</tr>

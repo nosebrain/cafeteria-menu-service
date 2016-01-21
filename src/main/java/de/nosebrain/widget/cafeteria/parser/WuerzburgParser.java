@@ -3,6 +3,7 @@ package de.nosebrain.widget.cafeteria.parser;
 import static de.nosebrain.util.ValidationUtils.present;
 
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.Set;
 
 import org.joda.time.DateTime;
@@ -70,8 +71,13 @@ public class WuerzburgParser extends AbstractMenuParser {
               menu.addPrice(AbstractMenuParser.cleanPrice(price.attr("data-default")));
               menu.addPrice(AbstractMenuParser.cleanPrice(price.attr("data-bed")));
               menu.addPrice(AbstractMenuParser.cleanPrice(price.attr("data-guest")));
-              // TODO: kind
-              // TODO: each
+              
+              final Elements ingredientElements = menuElement.select(".theicon");
+              final LinkedList<String> ingredients = new LinkedList<>();
+              menu.setIngredients(ingredients);
+              for (final Element ingredientElement : ingredientElements) {
+                ingredients.add(ingredientElement.attr("title").replaceAll("ue", "ü"));
+              }
               day.addMenu(menu);
             }
             checkDay(day, informations);
