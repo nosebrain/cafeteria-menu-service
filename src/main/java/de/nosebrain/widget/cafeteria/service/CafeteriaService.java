@@ -73,7 +73,7 @@ public class CafeteriaService {
         final Date nowDate = new Date();
         final DateMidnight now = new DateTime(nowDate).toDateMidnight();
         final DateMidnight lastUpdated = new DateTime(storedCafeteria.getLastUpdated()).toDateMidnight();
-        return !now.isEqual(lastUpdated);
+        return now.isEqual(lastUpdated);
       default:
         break;
     }
