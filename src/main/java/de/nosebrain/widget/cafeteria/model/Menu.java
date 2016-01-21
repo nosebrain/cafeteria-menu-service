@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 public class Menu {
 
   private String description;
+  private List<String> ingredients;
   private List<String> prices;
 
   /**
@@ -25,6 +26,20 @@ public class Menu {
    */
   public void setDescription(final String description) {
     this.description = description;
+  }
+
+  /**
+   * @return the ingredients
+   */
+  public List<String> getIngredients() {
+    return this.ingredients;
+  }
+
+  /**
+   * @param ingredients the ingredients to set
+   */
+  public void setIngredients(final List<String> ingredients) {
+    this.ingredients = ingredients;
   }
 
   /**
