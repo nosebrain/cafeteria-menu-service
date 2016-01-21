@@ -31,7 +31,7 @@ public abstract class AbstractMenuParser implements MenuParser {
     }
 
     final String url = cafeteriaInfo.getUrl();
-    final Document document = Jsoup.connect(url).get();
+    final Document document = Jsoup.connect(url).timeout(2000).get();
     return new CafeteriaParserResult(this.extractInformations(document, week), document.html());
   }
 
