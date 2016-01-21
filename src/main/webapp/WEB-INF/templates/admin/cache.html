@@ -31,7 +31,7 @@
 				</tr>
 				<tr th:each="cafeteria,iterStat : ${cafeterias}">
 					<td th:text="${cafeteria.cafeteriaInfo.universityInfo.name}">Uni Würzburg</td>
-					<td><span class="cafName" th:text="${cafeteria.cafeteriaInfo.name}">Frankenstube</span> <a th:href="${cafeteria.cafeteriaInfo.url}"><span class="glyphicon glyphicon-share-alt"></span></a></td>
+					<td><a th:href="${cafeteria.cafeteriaInfo.url}" th:text="${cafeteria.cafeteriaInfo.name}">Frankenstube</a></td>
 					<td>
 						<span class="startWeek" th:text="${#calendars.format(cafeteria.weekStart,'dd.MM')}" /> - <span class="endWeek" th:text="${#calendars.format(cafeteria.weekEnd,'dd.MM.yyyy')}" />
 					</td>
