@@ -20,6 +20,13 @@
 		<spring-security.version>4.0.2.RELEASE</spring-security.version>
 		<wtpversion>1.5</wtpversion>
 	</properties>
+	
+	<repositories>
+		<repository>
+			<id>artifactory.nosebrain.de</id>
+			<url>http://10.0.1.152:8081/artifactory/repo</url>
+		</repository>
+	</repositories>
 
 	<build>
 		<plugins>
