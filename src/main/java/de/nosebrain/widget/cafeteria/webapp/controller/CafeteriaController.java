@@ -62,23 +62,38 @@ public class CafeteriaController {
     }
     final int week;
     int year;
-    if ("CURRENT".equals(yearAndWeek)) {
-      final Calendar calendar = Calendar.getInstance(Locale.GERMANY); // XXX: change locale depending on cafeteria
-      calendar.setFirstDayOfWeek(Calendar.MONDAY);
-      year = calendar.get(Calendar.YEAR);
-      week = calendar.get(Calendar.WEEK_OF_YEAR);
-    } else if (yearAndWeek.contains("_")) {
-      final String[] yearWeekSplit = yearAndWeek.split("_");
-      year = Integer.parseInt(yearWeekSplit[0]);
-      week = Integer.parseInt(yearWeekSplit[1]);
-    } else {
-      week = Integer.parseInt(yearAndWeek);
-      final Calendar calendar = Calendar.getInstance();
-      year = calendar.get(Calendar.YEAR);
-      final int currentWeek = calendar.get(Calendar.WEEK_OF_YEAR);
-      if (currentWeek > week) {
-        year++;
-      }
+    
+    if (!present(yearAndWeek)) {
+      throw new IllegalArgumentException("invalid year and week");
+    }
+    
+    final Calendar calendar = Calendar.getInstance(Locale.GERMANY); // XXX: change locale depending on cafeteria
+    switch (yearAndWeek) {
+      case "CURRENT":
+      case "CURRENT_WEEK":
+        calendar.setFirstDayOfWeek(Calendar.MONDAY);
+        year = calendar.get(Calendar.YEAR);
+        week = calendar.get(Calendar.WEEK_OF_YEAR);
+        break;
+      case "NEXT_WEEK":
+        calendar.setFirstDayOfWeek(Calendar.MONDAY);
+        year = calendar.get(Calendar.YEAR);
+        week = calendar.get(Calendar.WEEK_OF_YEAR) + 1;
+        break;
+      default:
+        if (yearAndWeek.contains("_")) {
+          final String[] yearWeekSplit = yearAndWeek.split("_");
+          year = Integer.parseInt(yearWeekSplit[0]);
+          week = Integer.parseInt(yearWeekSplit[1]);
+        } else {
+          week = Integer.parseInt(yearAndWeek);
+          year = calendar.get(Calendar.YEAR);
+          final int currentWeek = calendar.get(Calendar.WEEK_OF_YEAR);
+          if (currentWeek > week) {
+            year++;
+          }
+        }
+        break;
     }
     
     if ((week < 1) || (week > 54)) {
