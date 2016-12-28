@@ -6,6 +6,7 @@ import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.TreeMap;
 
+import de.nosebrain.widget.cafeteria.model.config.Location;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
@@ -60,7 +61,7 @@ public class CafeteriaConfigurer implements BeanFactoryPostProcessor {
             if ("name".equals(parts[2])) {
               universityInfo.setName(value);
             }
-          } else if (parts.length == 4) {
+          } else if (parts.length >= 4) {
             final int index = Integer.parseInt(parts[2]);
 
             final List<CafeteriaInfo> cafeterias = universityInfo.getCafeterias();
@@ -84,6 +85,22 @@ public class CafeteriaConfigurer implements BeanFactoryPostProcessor {
             if ("url".equals(last)) {
               cafeteriaInfo.setUrl(value);
             }
+
+            if ("location".equals(last)) {
+              Location currentLocation = cafeteriaInfo.getLocation();
+              if (currentLocation == null) {
+                currentLocation = new Location();
+                cafeteriaInfo.setLocation(currentLocation);
+              }
+
+              final double coordinate = Double.parseDouble(value);
+			  final String coordinateKey = parts[4];
+              if ("latitude".equals(coordinateKey)) {
+				currentLocation.setLatitude(coordinate);
+			  } else {
+              	currentLocation.setLongitude(coordinate);
+			  }
+			}
           }
         }
       }
