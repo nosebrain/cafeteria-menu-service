@@ -11,6 +11,7 @@ public class CafeteriaInfo {
   private int id;
   private String name;
   private String url;
+  private Location location;
   private CachePolicy cachePolicy = CachePolicy.WEEK;
   private boolean disabled;
   @JsonIgnore
@@ -58,6 +59,20 @@ public class CafeteriaInfo {
    */
   public void setUrl(final String url) {
     this.url = url;
+  }
+
+  /**
+   * @return the location
+   */
+  public Location getLocation() {
+    return location;
+  }
+
+  /**
+   * @param location the location to set
+   */
+  public void setLocation(Location location) {
+    this.location = location;
   }
 
   /**
