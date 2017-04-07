@@ -8,6 +8,8 @@ import de.nosebrain.widget.cafeteria.model.Day;
 import de.nosebrain.widget.cafeteria.model.config.CafeteriaInfo;
 
 public abstract class AbstractMenuParser implements MenuParser {
+  private static final int TIMEOUT = 500 * 1000; // in ms
+
   private static final String EURO = "€";
 
   protected static String cleanPrice(final String string) {
@@ -31,7 +33,7 @@ public abstract class AbstractMenuParser implements MenuParser {
     }
 
     final String url = cafeteriaInfo.getUrl();
-    final Document document = Jsoup.connect(url).timeout(2000).get();
+    final Document document = Jsoup.connect(url).timeout(TIMEOUT).get();
     return new CafeteriaParserResult(this.extractInformations(document, week), document.html());
   }
 
