@@ -54,6 +54,11 @@ public class CafeteriaService {
       }
     } catch (final Exception e) {
       LOGGER.error("Updating or caching cafeteria failed.", e);
+
+      // return the cached cafeteria
+      if (present(storedCafeteria)) {
+        return storedCafeteria;
+      }
     }
 
     throw new ResourceNotFoundException();
