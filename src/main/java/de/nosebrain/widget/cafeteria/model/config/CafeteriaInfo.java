@@ -1,6 +1,7 @@
 package de.nosebrain.widget.cafeteria.model.config;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 /**
  * representation a cafeteria
@@ -11,6 +12,7 @@ public class CafeteriaInfo {
   private int id;
   private String name;
   private String url;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Location location;
   private CachePolicy cachePolicy = CachePolicy.WEEK;
   private boolean disabled;
