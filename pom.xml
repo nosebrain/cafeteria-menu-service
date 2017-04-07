@@ -89,7 +89,7 @@
 				<configuration>
 					<server>prod</server>
 					<path>/service</path>
-					<url>http://10.0.1.152:8080/manager/text</url>
+					<url>http://nosebrain.de:8080/manager/text</url>
 				</configuration>
 			</plugin>
 			<plugin>
