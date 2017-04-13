@@ -4,6 +4,7 @@ import static de.nosebrain.util.ValidationUtils.present;
 
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 import org.joda.time.DateTime;
@@ -56,7 +57,7 @@ public class WuerzburgParser extends AbstractMenuParser {
               cafeteria.addDay(holiday);
             }
             
-            final Set<String> informations = new HashSet<String>();
+            final Set<String> information = new HashSet<String>();
             final Elements menuElements = dayElement.select(".menu");
             for (final Element menuElement : menuElements) {
               final Menu menu = new Menu();
@@ -65,7 +66,7 @@ public class WuerzburgParser extends AbstractMenuParser {
               
               final Elements price = menuElement.select(".price");
               if ((price.size() == 0) && isMessage(text)) {
-                informations.add(text);
+                information.add(text);
                 continue;
               }
               menu.addPrice(AbstractMenuParser.cleanPrice(price.attr("data-default")));
@@ -80,7 +81,7 @@ public class WuerzburgParser extends AbstractMenuParser {
               }
               day.addMenu(menu);
             }
-            checkDay(day, informations);
+            checkDay(day, information);
             cafeteria.addDay(day);
           }
         }
@@ -88,15 +89,23 @@ public class WuerzburgParser extends AbstractMenuParser {
         return cafeteria;
       }
     }
-    // cound not parse anything
+    // could not parse anything
     return null;
   }
 
-  private static void checkDay(final Day day, final Set<String> informations) {
-    if (!present(day.getFood())) {
+  private static void checkDay(final Day day, final Set<String> information) {
+    final List<Menu> menu = day.getFood();
+    if (!present(menu)) {
       day.setHoliday(true);
-      if (informations.size() == 1) {
-        day.setMessage(informations.iterator().next());
+      if (information.size() == 1) {
+        day.setMessage(information.iterator().next());
+      }
+    } else if (menu.size() == 1) {
+      final Menu firstMenu = menu.get(0);
+      final String description = firstMenu.getDescription();
+      if (isMessage(description)) {
+        day.setHoliday(true);
+        day.setMessage(description);
       }
     }
   }
