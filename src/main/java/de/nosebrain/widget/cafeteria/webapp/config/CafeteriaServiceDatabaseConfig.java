@@ -22,8 +22,6 @@ import org.springframework.core.io.Resource;
 @org.springframework.context.annotation.Configuration
 public class CafeteriaServiceDatabaseConfig {
   
-  
-  
   @Bean
   public static DataSource databaseConnection(@Value("${database.driver}") final String driverClassName,
       @Value("${database.url}") final String databaseUrl,
