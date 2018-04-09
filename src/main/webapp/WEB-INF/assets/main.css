@@ -1,0 +1,34 @@
+ul.price li:first-of-type::before {
+  content: '(';
+}
+
+ul.price li::before {
+  content: '/';
+}
+
+ul.price li:last-of-type::after {
+  content: ')';
+}
+
+ul.price li {
+  display: inline;
+  padding: 0px;
+  margin: 0px;
+}
+
+table.menu {
+  table-layout: fixed;
+}
+
+table.menu td {
+  width: 20%;
+}
+
+ul.price, ul.ingredients {
+  color: gray;
+}
+
+ul.menu, ul.ingredients, ul.price {
+  list-style: none;
+  padding: 0px;
+}

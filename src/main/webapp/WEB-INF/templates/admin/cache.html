@@ -60,12 +60,11 @@
 							<div class="modal-header">
 								<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 								<h4 class="modal-title" th:id="'cafeteria_' + ${iterStat.index} + 'Label'" th:text="${cafeteria.cafeteriaInfo.name}">Frankenstube</h4>
+                <span class="startWeek" th:text="${#calendars.format(cafeteria.weekStart,'dd.MM')}" /> - <span class="endWeek" th:text="${#calendars.format(cafeteria.weekEnd,'dd.MM.yyyy')}" />
 							</div>
 							<div class="modal-body" th:switch="${cafeteria.closed}">
-								<div>
-									<span class="startWeek" th:text="${#calendars.format(cafeteria.weekStart,'dd.MM')}" /> - <span class="endWeek" th:text="${#calendars.format(cafeteria.weekEnd,'dd.MM.yyyy')}" />
-								</div>
-								<table class="table table-condensed" th:case="false">
+
+								<table class="table table-condensed menu" th:case="false">
 									<tr>
 										<th>Mo</th>
 										<th>Tu</th>
@@ -75,11 +74,15 @@
 									</tr>
 									<tr>
 										<td th:each="day : ${cafeteria.days}">
-											<ul>
+                      <span class="info" th:if="${day.holiday}">closed</span>
+											<ul class="menu">
 												<li th:each="menu : ${day.food}" >
 													<span th:text="${menu.description}" />
-													<small>
-														<ul>
+                          <small>
+                            <ul class="price">
+                              <li th:each="price : ${menu.prices}" th:text="${price}" />
+                            </ul>
+														<ul class="ingredients">
 															<li th:each="ingredient : ${menu.ingredients}" th:text="${ingredient}" />
 														</ul>
 													</small>

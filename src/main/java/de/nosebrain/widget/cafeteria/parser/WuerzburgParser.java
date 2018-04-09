@@ -111,7 +111,8 @@ public class WuerzburgParser extends AbstractMenuParser {
   }
   
   private static boolean isMessage(final String message) {
-    return message.contains("findet") || message.contains("öffnet") || message.contains("ausflug") || message.contains("geschlossen");
+    final String normedMessage = message.toLowerCase();
+    return normedMessage.contains("findet") || normedMessage.contains("öffnet") || normedMessage.contains("ausflug") || normedMessage.contains("geschlossen");
   }
 
   private static int getDay(final String string) {
