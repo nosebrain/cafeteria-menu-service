@@ -135,6 +135,10 @@ public class WuerzburgParser extends AbstractMenuParser {
     if ("Freitag".equals(string)) {
       return 4;
     }
+
+    if ("Samstag".equals(string)) {
+      return 5;
+    }
     throw new IllegalArgumentException(string);
   }
 }
