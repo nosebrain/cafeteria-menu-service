@@ -10,6 +10,7 @@ import java.util.List;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import de.nosebrain.widget.cafeteria.model.Cafeteria;
@@ -157,5 +158,13 @@ public class WuerzburgParserTest {
     
     final Day friday = extractInformations.getDays().get(4);
     assertEquals(3, friday.getFood().size());
+  }
+
+  @Test
+  @Ignore
+  public void testParser() throws Exception {
+    final Document document = Jsoup.connect("https://www.studentenwerk-wuerzburg.de/essen-trinken/speiseplaene/interimsmensa-sprachenzentrum-wuerzburg.html").get();
+    System.out.println(document.html());
+    final Cafeteria cafeteria = PARSER.extractInformations(document, 28);
   }
 }
