@@ -9,8 +9,8 @@
 	<name>cafeteria-service</name>
 
 	<scm>
-		<connection>scm:hg:ssh://hg@bitbucket.org/nosebrain/cafeteria-menu-service</connection>
-		<developerConnection>scm:hg:ssh://hg@bitbucket.org/nosebrain/cafeteria-menu-service</developerConnection>
+		<connection>scm:git:ssh://git@github.com:nosebrain/cafeteria-menu-service.git</connection>
+		<developerConnection>scm:git:ssh://git@github.com:nosebrain/cafeteria-menu-service.git</developerConnection>
 		<tag>HEAD</tag>
 	</scm>
 
