@@ -25,7 +25,7 @@ import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 @org.springframework.context.annotation.PropertySource(value = { "classpath:cafeteria-service.properties", "file:${catalina.home}/conf/cafeteria-service/cafeteria-service.properties" }, ignoreResourceNotFound = true)
 public class CafeteriaServiceConfig extends WebMvcConfigurerAdapter {
 
-  private static final String SERVICE_PROPERTIES = "serviceProperties";
+  public static final String SERVICE_PROPERTIES = "serviceProperties";
 
   @Override
   public void addResourceHandlers(final ResourceHandlerRegistry registry) {

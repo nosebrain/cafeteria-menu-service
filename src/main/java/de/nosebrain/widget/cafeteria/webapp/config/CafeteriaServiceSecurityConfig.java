@@ -32,7 +32,7 @@ public class CafeteriaServiceSecurityConfig extends WebSecurityConfigurerAdapter
   }
   
   @Bean
-  protected AuthenticationProvider inMemoryUserDetailsManager(@Qualifier("serviceProperties") final Properties properties) {
+  protected AuthenticationProvider inMemoryUserDetailsManager(@Qualifier(CafeteriaServiceConfig.SERVICE_PROPERTIES) final Properties properties) {
     final DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
     final InMemoryUserDetailsManager userDetailsService = new InMemoryUserDetailsManager(properties, "auth.");
     authenticationProvider.setUserDetailsService(userDetailsService);
