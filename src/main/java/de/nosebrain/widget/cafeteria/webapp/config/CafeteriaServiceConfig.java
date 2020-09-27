@@ -39,7 +39,7 @@ public class CafeteriaServiceConfig extends WebMvcConfigurerAdapter {
       if (propertySource instanceof EnumerablePropertySource<?>) {
           for (final String key : ((EnumerablePropertySource<?>) propertySource).getPropertyNames()) {
             final Object value = propertySource.getProperty(key);
-            if ((value != null) && (value instanceof String)) {
+            if (value instanceof String) {
               properties.setProperty(key, (String) value);
             }
           }
